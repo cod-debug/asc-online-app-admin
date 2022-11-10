@@ -1,0 +1,328 @@
+// app global css in SCSS form
+body {
+  // font-family: "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.navbar-logo {
+  height: 3em;
+}
+
+.q-toolbar__title.ellipsis {
+  padding-top: 8px;
+}
+
+.q-tabs-gutter {
+  margin: 0;
+  padding: 0;
+  border: .5px solid lightgray;
+  margin-top: -1px;
+}
+
+body {
+  background: url("~assets/images/login-bg.png") no-repeat;
+  background-size: 100% 100%;
+}
+
+.q-page-container {
+  padding-bottom: 80px;
+}
+
+.q-carousel {
+  background-color: #fff;
+  height: 65vh;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+
+.footer .footer-links a {
+  color: black;
+  margin-left: 20px;
+  font-weight: bolder;
+}
+
+.login-form {
+  border-radius: 10px;
+  padding: 20px;
+  width: 80%;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.forgot-password-btn {
+  color: black;
+  opacity: .8;
+  text-decoration: none;
+}
+
+.forgot-password-btn:hover {
+  opacity: 1;
+}
+
+.flex-items-center {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.border-bottom-red {
+  border-bottom: solid 4px #f53e35;
+}
+
+.time-container {
+  margin: 0;
+  color: #720000;
+  font-weight: 800;
+  font-size: 40px;
+}
+
+.q-page-container {
+  height: 100vh;
+  overflow: auto;
+}
+
+.q-mini-drawer-hide {
+  display: none;
+}
+
+.nav-toggler {
+  position: absolute;
+  right: -30px;
+  width: 30px;
+  font-size: 8pt;
+  padding: 0;
+  background-color: #c5140c;
+  border-radius: 0;
+  border-bottom-top-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.nav-toggler .q-btn__wrapper {
+  padding: 0;
+}
+
+.q-item__section--avatar {
+  min-width: unset !important;
+}
+
+.nav-hr {
+  width: 90%;
+  border: .1px solid lightgray;
+}
+
+.page-title {
+  font-size: 25px;
+  font-weight: 600;
+  color: #9c0000;
+}
+
+.text-red-15 {
+  color: #770000;
+}
+
+@keyframes borerRight {
+  from {
+    opacity: 0;
+    transform: scaleY(0)
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1)
+  }
+}
+
+.nav-item.q-item {
+  position: relative;
+  font-size: 15px;
+  font-weight: 500;
+
+  &:hover {
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 5px;
+      background-color: #ca0000;
+      animation: borerRight .5s;
+    }
+  }
+}
+
+.nav-item .nav-item-child .q-item__section {
+  font-size: 13px;
+}
+
+.nav-item.q-expansion-item .q-item:not(.nav-item-child) {
+  position: relative;
+  font-size: 15px;
+  font-weight: 500;
+
+  .q-item__section--avatar .q-icon {
+    font-size: 15px;
+  }
+
+  &:hover {
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 5px;
+      background-color: #ca0000;
+      animation: borerRight .5s;
+    }
+  }
+}
+
+.nav-item.q-expansion-item .q-item.nav-item-child {
+  position: relative;
+  font-size: 15px;
+  font-weight: 500;
+  padding-left: 50px;
+
+  .drawer-item-icon {
+    font-size: 10px;
+  }
+
+  &:hover {
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 1px;
+      background-color: #ca0000;
+      // animation: borerRight .5s;
+    }
+  }
+}
+
+
+
+
+.drawer-badge {
+  padding: 2px 10px;
+  width: auto;
+  font-size: 10px;
+  background: #198754 !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+
+.q-card {
+  border-radius: 9px;
+}
+
+.admin-footer {
+  text-align: right;
+  position: fixed;
+  bottom: 0;
+  background-color: #c5140c;
+  width: 100%;
+  padding: 0;
+  box-shadow: -2px -2px 10px 0 rgb(0 0 0 / 25%);
+}
+
+.admin-footer p {
+  padding: 5px;
+  margin: 0;
+}
+
+.q-stepper__tab--active {
+  background-color: rgba(255,255,255, .2);
+}
+
+.q-stepper__tab--active .q-stepper__dot {
+  width: 44px;
+  height: 44px;
+}
+
+.q-stepper__tab--active .q-stepper__dot i {
+  font-size: 24px;
+}
+
+.q-stepper__tab--active .q-stepper__title {
+  color: rgba(0,0,0,.87);
+}
+
+#addAscUser {
+  position: absolute;
+  right: 0;
+}
+
+.loading-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0, .5);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input {
+    text-transform: uppercase!important;
+}
+input[type='email'],
+input[type='password'],
+input[type='text-pass'] {
+  text-transform: initial !important;
+}
+
+
+
+.screenwide {
+  max-width: 100% !important;
+}
+
+
+.screenwide .q-table {
+  max-width: 100% !important;
+}
+
+.screenwide td {
+  white-space: normal !important;
+  word-wrap: normal !important;
+  hyphens: manual;
+}
+
+.screenwide th {
+  text-align: center !important
+}
+
+.legend {
+  padding: 5px;
+  display: inline-block;
+  margin-right: 4%;
+  vertical-align: sub;
+  border: 1px solid #8a8a8a;
+}
+
+.legend.blue {
+  background-color: #add8e6;
+}
+
+.legend.gold {
+  background-color: #fca402;
+}
+
+.legend.green {
+  background-color: #8fcf8f;
+}
