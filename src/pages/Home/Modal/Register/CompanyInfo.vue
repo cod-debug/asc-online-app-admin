@@ -140,7 +140,7 @@
           search: this.search,
         }
         this.options.splice(this.options.length -1, 1);
-        let { data, status } = await this.$store.dispatch('company/getListCompanies', payload);
+        let { data, status } = await this.$store.dispatch('company/getAllCompanies', payload);
         data.rows.map((item) => {
           this.options.push({ value: item.id, label: item.name, affiliation: item.affiliate });
         });

@@ -8,7 +8,7 @@
 			<q-separator inset />
 
 			<q-card-section>
-				
+				<UserRoles />
 			</q-card-section>
 		</q-card>
 	</div>
@@ -17,6 +17,7 @@
 <script>
 	
 import { ref } from 'vue';
+import UserRoles from './Tables/UserRoles.vue';
 export default {
 		name: 'AdminAnnouncements',
 		data: () => ({
@@ -27,6 +28,7 @@ export default {
 		}),
 
 		components: {
+			UserRoles
 		},
         mounted(){
 		  // this.getAllNONASC();

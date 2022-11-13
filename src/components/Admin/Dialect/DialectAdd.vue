@@ -3,21 +3,16 @@
     <div class="q-pa-md">
       <q-card bordered class="my-card" elevated :square="true">
         <q-card-section>
-          <div><q-icon name="label_important" class="text-h6 text-red-15" /> Main Document Information</div>
+          <div><q-icon name="label_important" class="text-h6 text-red-15" /> Dialect Information</div>
           <q-form ref="announcement_form"
                   @submit.prevent="submit"
                   :greedy="true">
             <div class="row">
-              <div class="col-sm-12 col-md-6 q-pa-sm">
+              <div class="col-12 q-pa-sm">
                 <q-input outlined
-                         label="Type of Document *"
-                         v-model="name"
+                         label="Dialect *"
+                         v-model="dialect"
                          :rules="[val => !!val || 'Field is required']" />
-              </div>
-              <div class="col-sm-12 col-md-6 q-pa-sm">
-                <q-input outlined
-                         label="Description"
-                         v-model="desc" />
               </div>
             </div>
           </q-form>
@@ -38,8 +33,7 @@
 
   export default {
     data: () => ({
-      name: "",
-      desc: "",
+      dialect: "",
 
     }),
     watch: {
@@ -89,11 +83,10 @@
         console.log(await this.validate());
         if (await this.validate()) {
           let payload = {
-              name: vm.name.toUpperCase(),
-              desc: vm.desc.toUpperCase()
+              dialect: vm.dialect.toUpperCase(),
           }
 
-          let endpoint = "type_of_docu/addTypeOfMainDocu";
+          let endpoint = "dialect/addDialect";
           let success_message = "created";
 
           if(vm.is_update){
@@ -102,10 +95,9 @@
               id: vm.selectedID
             }
             success_message = "updated";
-            endpoint = "type_of_docu/updateTypeOfMainDocu";
+            endpoint = "dialect/updateDialect";
           }
           
-          console.log(payload);
             
           let { data, status } = await this.$store.dispatch(endpoint, payload);
 
@@ -118,7 +110,7 @@
               timeout: 2000,
               color: 'green',
             })
-            this.$router.push({name: 'type-of-document-lists'})
+            this.$router.push({name: 'dialect-lists'})
           } else {
 
             Notify.create({

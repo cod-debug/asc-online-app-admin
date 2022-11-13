@@ -20,7 +20,7 @@
 
         <div>
           <hr class="nav-hr" />
-          <q-item clickable v-ripple class="nav-item">
+          <q-item clickable v-ripple class="nav-item" @click="logout">
             <q-item-section avatar>
               <i class="fa-solid fa-power-off"></i>
             </q-item-section>
@@ -110,6 +110,10 @@
       getToday() {
         let currentdate = new Date();
 
+      },
+      logout(){
+        localStorage.clear();
+        this.$router.push('/');
       }
     },
 

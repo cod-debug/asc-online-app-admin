@@ -15,12 +15,12 @@ export function getEnv(name) {
   return config[name];
 }
 
-export const addEmail = async ({ commit }, payload) => {
+export const addDialect = async ({ commit }, payload) => {
     let res = {};
     try {
         res = await axios({
         method: "post",
-        url: `${getEnv('API_BASE_URL')}/email-notify/create`,
+        url: `${getEnv('API_BASE_URL')}/dialect/create`,
         data: payload,
         headers: headers,
         })
@@ -33,17 +33,16 @@ export const addEmail = async ({ commit }, payload) => {
 }
 
 
-export const getAllEmail = async ({ commit }, payload) => {
+export const getDialects = async ({ commit }, payload) => {
     let res = {};
     try {
         res = await axios({
         method: "get",
-        url: `${getEnv('API_BASE_URL')}/email-notify/getall/`,
+        url: `${getEnv('API_BASE_URL')}/dialect/getall/`,
         params: payload,
         headers: headers,
         })
     } catch (e) {
-        console.log(e.response, "RESPONSE");
         res.data = e.response.data
         res.status = e.response.status
     }
@@ -51,12 +50,12 @@ export const getAllEmail = async ({ commit }, payload) => {
 }
 
 
-export const updateEmail = async ({ commit }, payload) => {
+export const updateDialect = async ({ commit }, payload) => {
     let res = {};
     try {
         res = await axios({
         method: "post",
-        url: `${getEnv('API_BASE_URL')}/email-notify/update/?id=${payload.id}`,
+        url: `${getEnv('API_BASE_URL')}/dialect/update/?id=${payload.id}`,
         data: payload.data,
         headers: headers,
         })
@@ -67,12 +66,12 @@ export const updateEmail = async ({ commit }, payload) => {
     return res;
 }
 
-export const getSpecificEmail = async ({ commit }, payload) => {
+export const getSpecificDialect = async ({ commit }, payload) => {
     let res = {};
     try {
         res = await axios({
         method: "get",
-        url: `${getEnv('API_BASE_URL')}/email-notify/getone/`,
+        url: `${getEnv('API_BASE_URL')}/dialect/getone/`,
         params: payload,
         headers: headers,
         })

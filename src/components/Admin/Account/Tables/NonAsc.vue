@@ -34,11 +34,12 @@
                     :max="max"
                     direction-links
                     flat
+                    @update:model-value="getAllNONASC"
                     color="grey"
                     active-color="primary" />
     </div>
 
-    <modal-add-user :selected_item="selected_item" modal_type="approval" v-if="show_modal_user" :closeModal="closeModal" />
+    <modal-add-user :selected_item="selected_item" modal_type="approval" v-if="show_modal_user" :closeModal="closeModal" :is_update="is_update" />
   </div>
 </template>
 
@@ -59,6 +60,7 @@ export default {
   props: ["tableData"],
 data: () => ({
   rows: [],
+  is_update: false,
   is_approval_modal: false,
   selected_item: null,
   show_modal_user: false,
@@ -67,6 +69,9 @@ data: () => ({
   max: 0,
   loading_list: false,
 }),
+watch: {
+
+},
   mounted(){
     this.initApp();
     },
@@ -87,6 +92,7 @@ data: () => ({
           size: vm.size,
           order: "id:asc",
           search: "",
+          filter: "non"
         };
         let { data, status } = await this.$store.dispatch("account/getAllUsers", payload);
 
@@ -107,6 +113,7 @@ data: () => ({
 
         console.log(item);
         vm.selected_item = item;
+        vm.is_update= true;
         vm.show_modal_user = true;
       },
       closeModal() {

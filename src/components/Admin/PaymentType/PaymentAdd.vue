@@ -81,7 +81,7 @@
         let vm = this;
         vm.switches = [
           {
-            name: "Amount",
+            name: "Has Amount",
             var: 'amount',
           },
           {
@@ -121,14 +121,13 @@
           id: vm.selectedID
         }
         
-        let { data, status } = await this.$store.dispatch("payment/getSpecificPayment", payload);
+        let { data, status } = await this.$store.dispatch("type_of_docu/getSpecificTypeOfDocu", payload);
         console.log(data);
         if([200, 201].includes(status)){
           for(let column in data){
-            let bols = ['amount', 'bankbranch', 'bankname', 'controlnum', 'fundtransfer', 'promisorry', 'reference'];
+            let bols = ['basis', 'expire', 'input', 'launch', 'remark', 'remark', 'variant'];
             if(bols.includes(column)){
-              console.log(column, ": ",data[column]);
-              vm[column] = data[column] == 1 ? true : false;
+              vm[column] = data[column] ? true: false;
             } else {
               vm[column] = data[column];
             }

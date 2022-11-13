@@ -196,7 +196,7 @@
       },
 
       async submit() {
-        let payload = { ...this.personal_info, ...this.company_info, ...this.account_info, compID: this.company_info.compID.value, type: 'applcnt' };
+        let payload = { ...this.personal_info, ...this.company_info, ...this.account_info, compID: this.company_info.compID.value };
         delete payload['confirm_password'];
         delete payload['member_affiliation'];
 

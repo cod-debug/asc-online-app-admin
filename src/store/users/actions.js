@@ -8,7 +8,7 @@ export const approveUser = async ({ commit }, payload) => {
       `/apprv/${payload.id}`,
     method: "post",
     headers: {
-      authorization: `Bearer ${LocalStorage.get('token')}`,
+      'Authorization': `Bearer ${localStorage.getItem('token').replace('__q_strn|', '')}`
     }
   })
   return res;

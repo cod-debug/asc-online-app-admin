@@ -37,7 +37,24 @@ export const maintenanceRoutes = [
       },
       {
         path: 'dialects',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/Dialect/DialectIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'dialect-lists',
+            component: () => import('components/Admin/Dialect/DialectLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'dialect-add',
+            component: () => import('components/Admin/Dialect/DialectAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'dialect-update',
+            component: () => import('components/Admin/Dialect/DialectAdd.vue'),
+          }
+        ]
       },
       {
         path: 'type-of-document',

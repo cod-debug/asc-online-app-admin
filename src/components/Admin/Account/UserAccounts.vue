@@ -58,7 +58,7 @@ export default {
 				this.tab = tab;
 			},
 			showAddASCUser() {
-				this.$refs.asc.show_add_user_modal = true;
+				this.$refs.asc.show_modal_user = true;
 			}
 		},
 		setup () {

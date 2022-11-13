@@ -1,9 +1,10 @@
 const { LocalStorage, Notify } = require("quasar");
 import axios from "axios";
 
+let token = localStorage.getItem('token') || '';
 const headers = {
   'Content-Type': 'application/json; charset=utf-8',
-  'Authorization': `Bearer ${localStorage.getItem('token')}`
+  'Authorization': `Bearer ${token.replace('__q_strn|', '')}`
 }
 
 const config = {
@@ -15,11 +16,53 @@ export function getEnv(name) {
 }
 
 export const getAllUsers = async ({ commit }, payload) => {
-  let res = await axios({
-    url: `${getEnv('API_BASE_URL')}/users/getall/`,
-    params: payload,
-    method: "get",
-    headers: headers,
-  })
+  let res = {};
+  try {
+      res = await axios({
+      method: "get",
+      url: `${getEnv('API_BASE_URL')}/users/getall/`,
+      params: payload,
+      headers: headers,
+      })
+  } catch (e) {
+      console.log(e);
+      res.data = e.response.data
+      res.status = e.response.status
+  }
+  return res
+}
+
+export const getOneUser = async ({ commit }, payload) => {
+  let res = {};
+  try {
+      res = await axios({
+      method: "get",
+      url: `${getEnv('API_BASE_URL')}/users/getone`,
+      params: payload,
+      headers: headers,
+      })
+  } catch (e) {
+      console.log(e);
+      res.data = e.response.data
+      res.status = e.response.status
+  }
   return res;
+}
+
+
+export const getAllUserTypes = async ({ commit }, payload) => {
+  let res = {};
+  try {
+      res = await axios({
+      method: "get",
+      url: `${getEnv('API_BASE_URL')}/users/usertype/`,
+      params: payload,
+      headers: headers,
+      })
+  } catch (e) {
+      console.log(e);
+      res.data = e.response.data
+      res.status = e.response.status
+  }
+  return res
 }

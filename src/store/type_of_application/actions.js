@@ -1,9 +1,10 @@
 const { LocalStorage, Notify } = require("quasar");
 import axios from "axios";
 
+let token = localStorage.getItem('token') || '';
 const headers = {
   'Content-Type': 'application/json; charset=utf-8',
-  'Authorization': `Bearer ${localStorage.getItem('token')}`
+  'Authorization': `Bearer ${token.replace('__q_strn|', '')}`
 }
 
 const config = {
