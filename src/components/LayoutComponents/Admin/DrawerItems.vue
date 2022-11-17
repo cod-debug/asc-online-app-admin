@@ -272,7 +272,13 @@ export default {
           icon: "fa-solid fa-screwdriver-wrench",
           label: "Medium & Execution",
           children: [
-          {
+            {
+              icon: "fa-solid fa-caret-right",
+              label: "Type of Clearance",
+              count: null,
+              path: "/asc/page/maintenance/type-of-clearance",
+            },
+            {
               icon: "fa-solid fa-caret-right",
               label: "Type of Medium",
               count: null,

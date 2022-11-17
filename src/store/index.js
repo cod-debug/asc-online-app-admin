@@ -11,6 +11,10 @@ import type_of_docu from "./type_of_docu";
 import email from "./email";
 import payment from "./payment";
 import dialect from "./dialect";
+import category from "./category";
+import brand from "./brand";
+import product from "./product";
+import clearance from "./clearance";
 
 
 // import example from './module-example'
@@ -39,6 +43,10 @@ export default store(function (/* { ssrContext } */) {
       email,
       payment,
       dialect,
+      category,
+      brand,
+      product,
+      clearance,
     },
 
     // enable strict mode (adds overhead!)

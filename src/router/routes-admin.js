@@ -174,15 +174,87 @@ export const maintenanceRoutes = [
       },
       {
         path: 'category',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/Category/CategoryIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'category-lists',
+            component: () => import('components/Admin/Category/CategoryLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'category-add',
+            component: () => import('components/Admin/Category/CategoryAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'category-update',
+            component: () => import('components/Admin/Category/CategoryAdd.vue'),
+          }
+        ]
       },
       {
         path: 'brands',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/Brand/BrandIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'brand-lists',
+            component: () => import('components/Admin/Brand/BrandLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'brand-add',
+            component: () => import('components/Admin/Brand/BrandAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'brand-update',
+            component: () => import('components/Admin/Brand/BrandAdd.vue'),
+          }
+        ]
       },
       {
         path: 'product',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/Product/ProductIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'product-lists',
+            component: () => import('components/Admin/Product/ProductLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'product-add',
+            component: () => import('components/Admin/Product/ProductAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'product-update',
+            component: () => import('components/Admin/Product/ProductAdd.vue'),
+          }
+        ]
+      },
+      {
+        path: 'type-of-clearance',
+        component: () => import('components/Admin/TypeOfClearance/ClearanceIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'clearance-lists',
+            component: () => import('components/Admin/TypeOfClearance/ClearanceLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'clearance-add',
+            component: () => import('components/Admin/TypeOfClearance/ClearanceAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'clearance-update',
+            component: () => import('components/Admin/TypeOfClearance/ClearanceAdd.vue'),
+          }
+        ]
       },
       {
         path: 'type-of-medium',

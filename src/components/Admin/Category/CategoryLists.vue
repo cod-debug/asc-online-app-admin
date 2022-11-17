@@ -9,8 +9,9 @@
 
     <div class="table_container" v-else>
       <q-table :columns="columns" 
-      flat 
+      
       bordered 
+
       :rows="table_data" 
       row-key="id" 
       hide-bottom 
@@ -18,7 +19,7 @@
 
       </q-table>
 
-      <div class="text-right q-mt-md">
+      <div class="text-right q-mt-md" v-if="max > 0">
         <q-pagination v-model="current"
                       :max="max"
                       direction-links
@@ -37,7 +38,7 @@
 
     data: () => ({
       columns: [
-        { name: 'name', align: 'left', label: 'Type of Document', field: 'name', sortable: false },
+        { name: 'desc', align: 'left', label: 'Category', field: 'desc', sortable: false },
         { name: 'status', align: 'left', label: 'Status', field: 'status', sortable: false },
       ],
 
@@ -77,11 +78,11 @@
         let payload = {
           page: this.current,
           size: vm.size,
-          order: "name:asc",
+          order: "desc:asc",
           search: "",
         }
         vm.loading_list = true;
-        let { data, status } = await vm.$store.dispatch("type_of_docu/getTypeOfMainDocu", payload);
+        let { data, status } = await vm.$store.dispatch("category/getCategory", payload);
         if ([200, 201].includes(status)) {
           console.log(data.rows);
           let parsed_rows = data.rows.map((item) => {
@@ -89,7 +90,7 @@
               ...item
             }
             for(let column in item) {
-              if(column != 'id' && column != 'status' && column != 'name'){
+              if(column != 'id' && column != 'status' && column != 'desc'){
                 parsed[column] = item[column] ? "Yes" : "No";
               } else if (column == 'status') {
                 parsed[column] = item[column] ? "Active" : "Inactive";
@@ -109,7 +110,7 @@
       },
       
       viewDetails (evt, row) {
-        this.$router.push({name: 'type-of-main-document-update', params: {
+        this.$router.push({name: 'category-update', params: {
           id: row.id
         }});
       },

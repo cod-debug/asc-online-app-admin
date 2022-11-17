@@ -3,26 +3,16 @@
     <div class="q-pa-md">
       <q-card bordered class="my-card" elevated :square="true">
         <q-card-section>
-          <div><q-icon name="label_important" class="text-h6 text-red-15" /> Document Information</div>
+          <div><q-icon name="label_important" class="text-h6 text-red-15" /> Category Information</div>
           <q-form ref="announcement_form"
                   @submit.prevent="submit"
                   :greedy="true">
             <div class="row">
-              <div class="col-sm-12 col-md-12 q-pa-sm">
+              <div class="col-12 q-pa-sm">
                 <q-input outlined
-                         label="Payment Description *"
+                         label="Category *"
                          v-model="desc"
                          :rules="[val => !!val || 'Field is required']" />
-              </div>
-              <div class="col-12 col-md-6 q-pa-sm"
-                  v-for="(item, key) in switches"
-                  :key="key">
-
-                <q-toggle
-                  v-model="$data[item.var]"
-                  :label="item.name"
-                  color="red"
-                />
               </div>
             </div>
           </q-form>
@@ -43,17 +33,8 @@
 
   export default {
     data: () => ({
-      "desc": "",
-      "amount": false,
-      "bankbranch": false,
-      "bankname": false,
-      "controlnum": false,
-      "fundtransfer": false,
-      "promisorry": false,
-      "reference": false,
-      "isonline": true,
+      desc: "",
 
-      switches: [],
     }),
     watch: {
     },
@@ -73,43 +54,10 @@
     },
 
     mounted() {
-      this.initApp();
     },
 
     methods: {
-      initApp(){
-        let vm = this;
-        vm.switches = [
-          {
-            name: "Has Amount",
-            var: 'amount',
-          },
-          {
-            name: "Has Bank Branch",
-            var: 'bankbranch',
-          },
-          {
-            name: "Has Bank Name",
-            var: 'bankname',
-          },
-          {
-            name: "Has Control Number",
-            var: 'controlnum',
-          },
-          {
-            name: "Has Fund Transfer Date",
-            var: 'fundtransfer',
-          },
-          {
-            name: "Has Promisorry Date",
-            var: 'promisorry',
-          },
-          {
-            name: "Has Reference No",
-            var: 'reference',
-          }
-        ];
-      },
+
       async validate(evt) {
         return await this.$refs.announcement_form.validate();
       },
@@ -121,47 +69,35 @@
           id: vm.selectedID
         }
         
-        let { data, status } = await this.$store.dispatch("payment/getSpecificPayment", payload);
+        let { data, status } = await this.$store.dispatch("category/getSpecificCategory", payload);
         console.log(data);
         if([200, 201].includes(status)){
           for(let column in data){
-            let bols = ['basis', 'expire', 'input', 'launch', 'remark', 'remark', 'variant'];
-            if(bols.includes(column)){
-              vm[column] = data[column] ? true: false;
-            } else {
-              vm[column] = data[column];
-            }
+            vm[column] = data[column];
           }
         }
       },
 
       async submit() {
         let vm = this;
-        console.log(vm.amount);
-
+        console.log(await this.validate());
         if (await this.validate()) {
           let payload = {
-            "desc": vm.desc.toUpperCase(),
-            "amount": vm.amount,
-            "bankbranch": vm.bankbranch,
-            "bankname": vm.bankname,
-            "controlnum": vm.controlnum,
-            "fundtransfer": vm.fundtransfer,
-            "promisorry": vm.promisorry,
-            "reference": vm.reference,
-            "isonline": true,
-            }
-          let endpoint = "payment/addPayment";
+              desc: vm.desc.toUpperCase()
+          }
+
+          let endpoint = "category/addCategory";
           let success_message = "created";
+
           if(vm.is_update){
             payload = {
               data: payload,
               id: vm.selectedID
             }
             success_message = "updated";
-            endpoint = "payment/updatePayment";
-            
+            endpoint = "category/updateCategory";
           }
+          
           console.log(payload);
             
           let { data, status } = await this.$store.dispatch(endpoint, payload);
@@ -169,13 +105,13 @@
           if ([200, 201].includes(status)) {
 
             Notify.create({
-              message: `Successfully ${success_message} Payment Type.`,
+              message: `Successfully ${success_message} Category.`,
               position: 'top-right',
               closeBtn: "X",
               timeout: 2000,
               color: 'green',
             })
-            this.$router.push({name: 'payment-lists'})
+            this.$router.push({name: 'category-lists'})
           } else {
 
             Notify.create({

@@ -94,6 +94,20 @@ export default {
             LocalStorage.set('token', data.token);
             LocalStorage.set('user_email', data.email);
             LocalStorage.set('is_logged', '1');
+            
+            let res = await this.$store.dispatch("users/getCurrentUser");
+            let current_user = res.data.id;
+          
+            if(data.type == 'evaltr'){
+              // EVALUATOR UI
+              window.location.href = process.env.EVAL_FE_BASE_URL + "/redirect/?token=" + data.token + "&id=" + current_user;
+              return false;
+            } else if (data.type == 'adspe') {
+              // ADSPE UI
+              window.location.href = process.env.ADSPE_FE_BASE_URL + "/redirect/?token=" + data.token + "&id=" + current_user;
+              return false;
+
+            }
 
             //this.$router.push('/asc/page/');
             window.location.href='/asc/page/';
