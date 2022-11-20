@@ -258,15 +258,66 @@ export const maintenanceRoutes = [
       },
       {
         path: 'type-of-medium',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/Medium/MediumIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'medium-lists',
+            component: () => import('components/Admin/Medium/MediumLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'medium-add',
+            component: () => import('components/Admin/Medium/MediumAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'medium-update',
+            component: () => import('components/Admin/Medium/MediumAdd.vue'),
+          }
+        ]
       },
       {
         path: 'type-of-executions',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/Execution/ExecutionIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'execution-lists',
+            component: () => import('components/Admin/Execution/ExecutionLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'execution-add',
+            component: () => import('components/Admin/Execution/ExecutionAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'execution-update',
+            component: () => import('components/Admin/Execution/ExecutionAdd.vue'),
+          }
+        ]
       },
       {
         path: 'medium-executions-controller',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/MediumExecution/MediumExecutionIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'medium-execution-lists',
+            component: () => import('components/Admin/MediumExecution/MediumExecutionLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'medium-execution-add',
+            component: () => import('components/Admin/MediumExecution/MediumExecutionAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'medium-execution-update',
+            component: () => import('components/Admin/MediumExecution/MediumExecutionAdd.vue'),
+          }
+        ]
       },
       {
         path: 'holidays',

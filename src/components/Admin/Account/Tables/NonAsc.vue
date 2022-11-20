@@ -39,7 +39,7 @@
                     active-color="primary" />
     </div>
 
-    <modal-add-user :selected_item="selected_item" modal_type="approval" v-if="show_modal_user" :closeModal="closeModal" :is_update="is_update" />
+    <modal-add-user :selected_item="selected_item" modal_type="approval" v-if="show_modal_user" :getAllNONASC="getAllNONASC" :closeModal="closeModal" :is_update="is_update" />
   </div>
 </template>
 

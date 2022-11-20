@@ -101,7 +101,7 @@
       },
 
       company_info: {
-        compID: "",
+        compId: "",
         member_affiliation: "",
       },
 
@@ -196,7 +196,7 @@
       },
 
       async submit() {
-        let payload = { ...this.personal_info, ...this.company_info, ...this.account_info, compID: this.company_info.compID.value };
+        let payload = { ...this.personal_info, ...this.company_info, ...this.account_info, compId: this.company_info.compId.value };
         delete payload['confirm_password'];
         delete payload['member_affiliation'];
 

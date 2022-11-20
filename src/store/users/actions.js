@@ -29,15 +29,46 @@ export const approveUser = async ({ commit }, payload) => {
   return res;
 }
 
+export const registerUser = async ({ commit }, payload) => {
+  let res = {};
+  try {
+      res = await axios({
+      method: "post",
+      url: `${getEnv('API_BASE_URL')}/users/register/employee`,
+      data: payload,
+      headers: headers,
+      })
+  } catch (e) {
+      res.data = e.response.data
+      res.status = e.response.status
+  }
+  return res;
+}
+
+export const updateUser = async ({ commit }, payload) => {
+  let res = {};
+  try {
+      res = await axios({
+      method: "post",
+      url: `${getEnv('API_BASE_URL')}/users/update/`,
+      data: payload.data,
+      params: payload.params,
+      headers: headers,
+      })
+  } catch (e) {
+      res.data = e.response.data
+      res.status = e.response.status
+  }
+  return res;
+}
 
 export const getCurrentUser = async ({ commit }, payload) => {
   let res = null;
   try {
     res = await axios({
       url: `${getEnv("API_BASE_URL")}/users/logged-in`,
-      data: payload,
       method: "get",
-      headers: headers,
+      headers: payload,
     })
   } catch (e) {
     res.data = e

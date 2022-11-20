@@ -8,7 +8,7 @@
         <div class="row">
           <div class="col-md-6 col-lg-6 q-pa-sm">
 
-            <q-select v-model="compID"
+            <q-select v-model="compId"
                       use-input
                       outlined 
                       input-debounce="0"
@@ -43,7 +43,7 @@
   import AddCompanyModal from "./Modal/AddCompany.vue";
   export default {
     data: () => ({
-      compID: "",
+      compId: "",
       add_company_btn: "<button style='background-color: seagreen; color: white; border-radius: 3px; border: 1px solid seagreen;'>Add New Company</button>",
       show_more: "<span class='text-grey q-pa-sm'><i class='fa fa-undo'></i> <i> Load More</i></span>",
       load_previous: "<span class='text-grey q-pa-sm'><i class='fa fa-undo'></i> <i> Load Previous</i></span>",
@@ -71,25 +71,25 @@
     },
 
     watch: {
-      compID(newVal, oldVal) {
+      compId(newVal, oldVal) {
 
         if (newVal.value == this.add_company_btn) {
           this.addCompany();
-          this.compID = "";
+          this.compId = "";
         } else if (newVal.value == this.show_more) {
           // if current page is less than the max number of pages current page will be added and call the get list of companies.
           if (this.max_pages > this.current) {
             this.current++;
             this.getAllCompanies();
           }
-          this.compID = "";
+          this.compId = "";
         } else if (newVal.value == this.load_previous) {
           this.current--;
           this.getAllCompanies();
-          this.compID = "";
+          this.compId = "";
         }
 
-        if (this.compID != "") {
+        if (this.compId != "") {
           this.member_affiliation = newVal.affiliation.name;
         }
       },
@@ -148,7 +148,6 @@
 
         if (this.is_first_load) {
           this.is_first_load = false;
-
           this.options.unshift({
             value: this.add_company_btn,
             label: this.add_company_btn,
@@ -168,7 +167,7 @@
 
       saveCompany(newCompany) {
         this.options.push(newCompany);
-        this.compID = newCompany;
+        this.compId = newCompany;
         this.member_affiliation = newCompany.affiliation;
       },
 

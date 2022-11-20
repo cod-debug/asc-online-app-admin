@@ -118,7 +118,7 @@
               timeout: 2000,
               color: 'green',
             })
-            this.$router.push({name: 'type-of-document-lists'})
+            this.$router.push({name: 'type-of-main-document-lists'})
           } else {
 
             Notify.create({

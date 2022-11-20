@@ -8,11 +8,18 @@
     </div>
 
     <div class="table_container" v-else>
-      <q-table :columns="columns" flat bordered :rows="table_data" row-key="name" hide-bottom @row-click="viewDetails" >
+      <q-table :columns="columns" 
+      
+      bordered 
+
+      :rows="table_data" 
+      row-key="id" 
+      hide-bottom 
+      @row-click="viewDetails" >
 
       </q-table>
 
-      <div class="text-right q-mt-md">
+      <div class="text-right q-mt-md" v-if="max > 0">
         <q-pagination v-model="current"
                       :max="max"
                       direction-links
@@ -31,7 +38,7 @@
 
     data: () => ({
       columns: [
-        { name: 'dialect', align: 'left', label: 'Dialect', field: 'dialect', sortable: false },
+        { name: 'desc', align: 'left', label: 'Type of Execution', field: 'type', sortable: false },
         { name: 'status', align: 'left', label: 'Status', field: 'status', sortable: false },
       ],
 
@@ -71,23 +78,38 @@
         let payload = {
           page: this.current,
           size: vm.size,
-          order: "dialect:asc",
+          order: "type:asc",
           search: "",
         }
+        
         vm.loading_list = true;
-        let { data, status } = await vm.$store.dispatch("dialect/getDialects", payload);
+        let { data, status } = await vm.$store.dispatch("execution/get", payload);
         if ([200, 201].includes(status)) {
-          vm.table_data = data.rows;
+          console.log(data.rows);
+          let parsed_rows = data.rows.map((item) => {
+            let parsed = {
+              ...item
+            }
+            for(let column in item) {
+              if (column == 'status') {
+                parsed[column] = item[column] ? "Active" : "Inactive";
+              }
+            }
+            return parsed;
+          });
+          console.log(parsed_rows);
+          vm.table_data = parsed_rows;
           vm.current = data.cpage;
           vm.max = data.tpage;
           vm.loading_list = false;
         } else {
           vm.loading_list = false;
         }
+
       },
       
       viewDetails (evt, row) {
-        this.$router.push({name: 'type-of-main-document-update', params: {
+        this.$router.push({name: 'execution-update', params: {
           id: row.id
         }});
       },

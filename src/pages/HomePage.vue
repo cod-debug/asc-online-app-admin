@@ -88,27 +88,46 @@ export default {
         try {
           let { data, status } = await this.$store.dispatch('auth/login', payload);
           if ([200, 201].includes(status)) {
-            // localStorage.setItem('token', data.token);
+            localStorage.setItem('token', data.token);
             // localStorage.setItem('user_email', data.email);
             // localStorage.setItem('is_logged', '1');
             LocalStorage.set('token', data.token);
             LocalStorage.set('user_email', data.email);
             LocalStorage.set('is_logged', '1');
             
-            let res = await this.$store.dispatch("users/getCurrentUser");
+            let payload = {
+              'Authorization': `Bearer ${data.token}`
+            }
+
+            let res = await this.$store.dispatch("users/getCurrentUser", payload);
             let current_user = res.data.id;
-          
+
             if(data.type == 'evaltr'){
-              // EVALUATOR UI
               window.location.href = process.env.EVAL_FE_BASE_URL + "/redirect/?token=" + data.token + "&id=" + current_user;
               return false;
             } else if (data.type == 'adspe') {
               // ADSPE UI
               window.location.href = process.env.ADSPE_FE_BASE_URL + "/redirect/?token=" + data.token + "&id=" + current_user;
               return false;
-
+            } else if (data.type == 'scrner') {
+              // ADSPE UI
+              window.location.href = process.env.SCRNER_FE_BASE_URL + "/redirect/?token=" + data.token + "&id=" + current_user;
+              return false;
+            } else if (data.type == 'revwer') {
+              // ADSPE UI
+              window.location.href = process.env.REVWER_FE_BASE_URL + "/redirect/?token=" + data.token + "&id=" + current_user;
+              return false;
+            } else if (data.type == 'applcnt') {
+              // APPLICANT UI
+              window.location.href = process.env.APPLCNT_BASE_URL + "/#/asc/page/announcement?token=" + data.token + "&id=" + current_user;
+              return false;
+            } else if (data.type == 'accnt') {
+              // ACCOUNTING UI
+              window.location.href = process.env.ACCOUNTING_BASE_URL + "/#/asc/page/announcement?token=" + data.token + "&id=" + current_user;
+              return false;
             }
 
+            // :4220/#/asc/page/application/s1/individual?token=<token>
             //this.$router.push('/asc/page/');
             window.location.href='/asc/page/';
           } else {

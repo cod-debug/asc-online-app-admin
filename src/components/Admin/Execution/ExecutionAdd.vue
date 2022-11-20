@@ -10,36 +10,18 @@
     <div class="q-pa-md">
       <q-card bordered class="my-card" elevated :square="true">
         <q-card-section>
-          <div><q-icon name="label_important" class="text-h6 text-red-15" /> Product Information</div>
           <q-form ref="announcement_form"
                   @submit.prevent="submit"
                   :greedy="true">
             <div class="row">
               <div class="col-12 q-pa-sm">
-                <q-select outlined
-                         label="Brand *"
-                         :options="brand_options"
-                         option-label="desc"
-                         option-value="id"
-                         v-model="brandId"
-                         :rules="[val => !!val || 'Field is required']" />
-              </div>
-              <div class="col-12 q-pa-sm">
                 <q-input outlined
-                         label="Product *"
-                         v-model="desc"
-                         :rules="[val => !!val || 'Field is required']" />
-              </div>
-              <div class="col-12 q-pa-sm">
-                <q-select outlined
-                         label="Category *"
-                         :options="category_options"
-                         option-label="desc"
-                         option-value="id"
-                         v-model="categId"
-                         :rules="[val => !!val || 'Field is required']" />
+                      label="Type of Execution *"
+                      v-model="type"
+                      :rules="[val => !!val || 'Field is required']" />
               </div>
             </div>
+
           </q-form>
         </q-card-section>
       </q-card>
@@ -58,14 +40,8 @@
 
   export default {
     data: () => ({
-      is_loading: false,
+      type: "",
 
-      desc: "",
-      brandId: null,
-      categId: null,
-
-      brand_options: [],
-      category_options: [],
     }),
     watch: {
     },
@@ -90,12 +66,44 @@
 
     methods: {
       initApp(){
-        this.getBrands();
-        this.getCategories();
+        this.getMainDocuments();
+        this.getClearances();
       },
+
       async validate(evt) {
         return await this.$refs.announcement_form.validate();
       },
+
+      async getMainDocuments(){
+
+        let vm = this;
+        let payload = {
+          page: 1,
+          size: 100,
+          order: "desc:asc",
+          search: "",
+        }
+        let { data, status } = await vm.$store.dispatch("type_of_docu/getTypeOfMainDocu", payload);
+        if ([200, 201].includes(status)){
+          vm.main_docs_options = data.rows;
+        }
+        console.log("KUHA LIST");
+      },
+
+    async getClearances(){
+      
+      let vm = this;
+      let payload = {
+        page: 1,
+        size: 100,
+        order: "type:asc",
+        search: "",
+      }
+      let { data, status } = await vm.$store.dispatch("clearance/get", payload);
+        if ([200, 201].includes(status)){
+          vm.clearance_options = data.rows;
+        }
+    },
 
       async getSpecific(){
         let vm = this;
@@ -104,55 +112,20 @@
         let payload = {
           id: vm.selectedID
         }
-        await this.getBrands();
-        await this.getCategories();
         
-        let { data, status } = await this.$store.dispatch("product/getSpecific", payload);
+        await this.getClearances();
+        await this.getMainDocuments();
+        
+        let { data, status } = await vm.$store.dispatch("execution/getSpecific", payload);
+        console.log(data);
         if([200, 201].includes(status)){
           for(let column in data){
             vm[column] = data[column];
-
-            if(column == 'brandId'){
-              // FETCH AND SET BRAND
-              vm.brandId = vm.brand_options.filter((i) => {
-                return i.id == data['brandId'];
-              })[0];
-            } else if (column == 'categId'){
-              // FETCH AND SET CATEGORY
-              vm.categId = vm.category_options.filter((i) => {
-                return i.id == data['brandId'];
-              })[0];
-            }
           }
-          
-          vm.is_loading = false;
+
+          vm['static_val'] = data.static;
         }
-      },
-
-      async getBrands(){
-        let vm = this;
-        let payload = {
-          page: 1,
-          size: 100,
-          order: "desc:asc",
-          search: "",
-        }
-        let { data, status } = await vm.$store.dispatch("brand/get", payload);
-        vm.brand_options = data.rows;
-
-      },
-
-      async getCategories(){
-        let vm = this;
-        let payload = {
-          page: 1,
-          size: 100,
-          order: "desc:asc",
-          search: "",
-        }
-        let { data, status } = await vm.$store.dispatch("category/getCategory", payload);
-        vm.category_options = data.rows;
-
+        vm.is_loading = false;
       },
 
       async submit() {
@@ -160,12 +133,10 @@
         console.log(await this.validate());
         if (await this.validate()) {
           let payload = {
-              desc: vm.desc.toUpperCase(),
-              brandId: vm.brandId.id,
-              categId: vm.categId.id
+            type: vm.type.toUpperCase(),
           }
 
-          let endpoint = "product/add";
+          let endpoint = "execution/add";
           let success_message = "created";
 
           if(vm.is_update){
@@ -174,7 +145,7 @@
               id: vm.selectedID
             }
             success_message = "updated";
-            endpoint = "product/update";
+            endpoint = "execution/update";
           }
             
           let { data, status } = await this.$store.dispatch(endpoint, payload);
@@ -182,13 +153,13 @@
           if ([200, 201].includes(status)) {
 
             Notify.create({
-              message: `Successfully ${success_message} Product.`,
+              message: `Successfully ${success_message} Type of Execution.`,
               position: 'top-right',
               closeBtn: "X",
               timeout: 2000,
               color: 'green',
             })
-            this.$router.push({name: 'product-lists'})
+            this.$router.push({name: 'execution-lists'})
           } else {
 
             Notify.create({

@@ -15,8 +15,9 @@ import category from "./category";
 import brand from "./brand";
 import product from "./product";
 import clearance from "./clearance";
-
-
+import medium from "./medium";
+import execution from "./execution";
+import medium_execution from "./medium_execution";
 // import example from './module-example'
 
 /*
@@ -47,6 +48,9 @@ export default store(function (/* { ssrContext } */) {
       brand,
       product,
       clearance,
+      medium,
+      execution,
+      medium_execution,
     },
 
     // enable strict mode (adds overhead!)
