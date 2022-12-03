@@ -15,6 +15,11 @@
       row-key="id" 
       hide-bottom 
       @row-click="viewDetails" >
+        <template>
+          <q-td :props="props">
+            <q-badge :color="parseStatus(props.row.status).color">{{parseStatus(props.row.status).val}}</q-badge>
+          </q-td>
+        </template>
 
       </q-table>
 

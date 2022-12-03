@@ -16,7 +16,11 @@
       row-key="id" 
       hide-bottom 
       @row-click="viewDetails" >
-
+        <template v-slot:body-cell-status="props">
+          <q-td :props="props">
+            <q-badge :color="parseStatus(props.row.status).color">{{parseStatus(props.row.status).val}}</q-badge>
+          </q-td>
+        </template>
       </q-table>
 
       <div class="text-right q-mt-md" v-if="max > 0">
@@ -107,6 +111,17 @@
           vm.loading_list = false;
         }
 
+      },
+
+      parseStatus(s) {
+        switch (s) {
+          case "Inactive":
+            return {val: 'inactive', color: 'grey'}
+            break;
+          case "Active":
+            return { val: 'active', color: 'green'}
+            break;
+        }
       },
       
       viewDetails (evt, row) {

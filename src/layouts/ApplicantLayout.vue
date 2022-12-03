@@ -76,7 +76,7 @@
       getCurrentDateTime() {
         let currentdate = new Date();
         let hours = currentdate.getHours() > 12 ? currentdate.getHours() - 12 : currentdate.getHours();
-        hours = hours <= 10 ? '0' + hours : hours;
+        hours = hours < 10 ? '0' + hours : hours;
         let ampm = currentdate.getHours() > 12 ? "PM" : "AM";
 
         this.currentTime = `${hours}:${currentdate.getMinutes()}:${currentdate.getSeconds() < 10 ? '0'+currentdate.getSeconds(): currentdate.getSeconds()} ${ampm}`;

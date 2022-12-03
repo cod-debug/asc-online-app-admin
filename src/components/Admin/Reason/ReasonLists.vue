@@ -35,7 +35,7 @@
 
     data: () => ({
       columns: [
-        { name: 'dialect', align: 'left', label: 'Dialect', field: 'dialect', sortable: false },
+        { name: 'reason', align: 'left', label: 'Reason', field: 'reason', sortable: false },
         { name: 'status', align: 'left', label: 'Status', field: 'status', sortable: false },
       ],
 
@@ -75,11 +75,11 @@
         let payload = {
           page: this.current,
           size: vm.size,
-          order: "dialect:asc",
+          order: "reason:asc",
           search: "",
         }
         vm.loading_list = true;
-        let { data, status } = await vm.$store.dispatch("dialect/getDialects", payload);
+        let { data, status } = await vm.$store.dispatch("reason/get", payload);
         if ([200, 201].includes(status)) {
           vm.table_data = data.rows;
           vm.current = data.cpage;
@@ -91,7 +91,7 @@
       },
       
       viewDetails (evt, row) {
-        this.$router.push({name: 'type-of-main-document-update', params: {
+        this.$router.push({name: 'reason-update', params: {
           id: row.id
         }});
       },

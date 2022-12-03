@@ -79,7 +79,7 @@
                 <q-toggle v-model="execution" label="Execution Enable" color="red-12" />
               </div>
               <div class="col-12 col-md-3">
-                <q-toggle v-model="static_val" label="Language Enable" color="red-12" />
+                <q-toggle v-model="static_val" label="Static Enable" color="red-12" />
               </div>
 
               <div class="col-12 col-md-3"></div>

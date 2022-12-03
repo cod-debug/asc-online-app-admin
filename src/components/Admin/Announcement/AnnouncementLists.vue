@@ -9,7 +9,11 @@
 
     <div class="table_container" v-else>
       <q-table :columns="columns" flat bordered :rows="table_data" hide-bottom @row-click="viewDetails">
-
+        <template v-slot:body-cell-status="props">
+          <q-td :props="props">
+            <q-badge :color="parseStatus(props.row.status).color">{{parseStatus(props.row.status).val}}</q-badge>
+          </q-td>
+        </template>
       </q-table>
 
       <div class="text-right q-mt-md">
@@ -32,7 +36,7 @@
     data: () => ({
       columns: [
         { name: 'title', align: 'left', label: 'Title', field: 'title', sortable: true },
-        { name: 'details', align: 'left', label: 'Details', field: 'details', sortable: true, },
+        // { name: 'details', align: 'left', label: 'Details', field: 'details', sortable: true, },
         { name: 'number_of_views', align: 'left', label: 'Number of Views', field: 'vcount', sortable: true, },
         { name: 'posting_date', align: 'left', label: 'Posting Date', field: 'pdate', sortable: true, },
         { name: 'status', align: 'left', label: 'Status', field: 'status', sortable: true, },
@@ -92,6 +96,16 @@
         this.$router.push({name: 'announcement-update', params: {
           id: row.id
         }});
+      },
+      parseStatus(s) {
+        switch (s) {
+          case 0:
+            return {val: 'inactive', color: 'grey'}
+            break;
+          case 1:
+            return { val: 'active', color: 'green'}
+            break;
+        }
       },
 
       closeModal() {

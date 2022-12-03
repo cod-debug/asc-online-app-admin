@@ -18,6 +18,7 @@ import clearance from "./clearance";
 import medium from "./medium";
 import execution from "./execution";
 import medium_execution from "./medium_execution";
+import reason from "./reason";
 // import example from './module-example'
 
 /*
@@ -51,6 +52,7 @@ export default store(function (/* { ssrContext } */) {
       medium,
       execution,
       medium_execution,
+      reason,
     },
 
     // enable strict mode (adds overhead!)

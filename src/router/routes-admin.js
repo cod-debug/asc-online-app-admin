@@ -150,7 +150,24 @@ export const maintenanceRoutes = [
       },
       {
         path: 'type-of-reason',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/Reason/ReasonIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'reason-lists',
+            component: () => import('components/Admin/Reason/ReasonLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'reason-add',
+            component: () => import('components/Admin/Reason/ReasonAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'reason-update',
+            component: () => import('components/Admin/Reason/ReasonAdd.vue'),
+          }
+        ]
       },
       {
         path: 'number-of-multiple-application-allowed',
