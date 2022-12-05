@@ -19,6 +19,10 @@ import medium from "./medium";
 import execution from "./execution";
 import medium_execution from "./medium_execution";
 import reason from "./reason";
+import document_file_size from "./document_file_size";
+import number_of_multi_app from "./number_of_multi_app";
+import rationale from "./rationale";
+import screener_reviewer_pair from "./screener_reviewer_pair";
 // import example from './module-example'
 
 /*
@@ -53,6 +57,10 @@ export default store(function (/* { ssrContext } */) {
       execution,
       medium_execution,
       reason,
+      document_file_size,
+      number_of_multi_app,
+      rationale,
+      screener_reviewer_pair,
     },
 
     // enable strict mode (adds overhead!)

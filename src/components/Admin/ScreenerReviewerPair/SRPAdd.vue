@@ -17,20 +17,20 @@
             <div class="row">
               <div class="col-6 q-pa-sm">
                 <q-select outlined
-                      label="Type of Medium *"
-                      option-label="desc"
+                      label="Screener Name *"
+                      option-label="fullname"
                       option-value="id"
-                      :options="medium_options"
-                      v-model="mediumId"
+                      :options="scrnr_options"
+                      v-model="screenerId"
                       :rules="[val => !!val || 'Field is required']" />
               </div>
               <div class="col-6 q-pa-sm">
                 <q-select outlined
-                      label="Type of Execution *"
-                        v-model="executionId"
-                        :options="execution_options"
+                      label="Reviewer Name *"
+                        v-model="reviewerId"
+                        :options="rev_options"
                         option-value="id"
-                        option-label="type"
+                        option-label="fullname"
                         :rules="[val => !!val || 'Field is required']" />
               </div>
             </div>
@@ -53,11 +53,11 @@
   export default {
     data: () => ({
       is_loading: false,
-      mediumId: null,
-      executionId: null,
+      screenerId: null,
+      reviewerId: null,
 
-      medium_options: [],
-      execution_options: [],
+      scrnr_options: [],
+      rev_options: [],
     }),
     watch: {
     },
@@ -82,43 +82,33 @@
 
     methods: {
       initApp(){
-        this.getMediums();
-        this.getExecutions();
+        this.getAllUsers();
       },
 
       async validate(evt) {
         return await this.$refs.announcement_form.validate();
       },
 
-      async getMediums(){
+      async getAllUsers(){
 
         let vm = this;
         let payload = {
           page: 1,
-          size: 100,
-          order: "desc:asc",
+          size: 1000,
+          order: "fname:asc",
           search: "",
+          filter: "asc",
         }
-        let { data, status } = await vm.$store.dispatch("medium/get", payload);
+        let { data, status } = await vm.$store.dispatch("account/getAllUsers", payload);
         if ([200, 201].includes(status)){
-          vm.medium_options = data.rows;
+          vm.scrnr_options = data.rows.filter((item) => {
+            return item.type == 'scrner'
+          });
+          vm.rev_options = data.rows.filter((item) => {
+            return item.type == 'revwer'
+          });
         }
       },
-
-    async getExecutions(){
-      
-      let vm = this;
-      let payload = {
-        page: 1,
-        size: 100,
-        order: "type:asc",
-        search: "",
-      }
-      let { data, status } = await vm.$store.dispatch("execution/get", payload);
-        if ([200, 201].includes(status)){
-          vm.execution_options = data.rows;
-        }
-    },
 
       async getSpecific(){
         let vm = this;
@@ -128,23 +118,22 @@
           id: vm.selectedID
         }
         
-        await this.getMediums();
-        await this.getExecutions();
+        await this.getAllUsers();
         
-        let { data, status } = await vm.$store.dispatch("medium_execution/getSpecific", payload);
+        let { data, status } = await vm.$store.dispatch("screener_reviewer_pair/getSpecific", payload);
         console.log(data);
         if([200, 201].includes(status)){
           for(let column in data){
             vm[column] = data[column];
-            if(column == 'mediumId'){
-                // FETCH AND SET BRAND
-                vm.mediumId = vm.medium_options.filter((i) => {
-                  return i.id == data['mediumId'];
+            if(column == 'screenerId'){
+                // FETCH AND SET SCREENER
+                vm.screenerId = vm.scrnr_options.filter((i) => {
+                  return i.id == data.screenerId;
                 })[0];
-              } else if (column == 'executionId'){
-                // FETCH AND SET CATEGORY
-                vm.executionId = vm.execution_options.filter((i) => {
-                  return i.id == data['executionId'];
+              } else if (column == 'reviewpair'){
+                // FETCH AND SET REVIEWER
+                vm.reviewerId = vm.rev_options.filter((i) => {
+                  return i.id == data['reviewpair'][0].id;
                 })[0];
               }
           }
@@ -159,11 +148,11 @@
         console.log(await this.validate());
         if (await this.validate()) {
           let payload = {
-              mediumId: vm.mediumId.id,
-              executionId: vm.executionId.id,
+              screenerId: vm.screenerId.id,
+              reviewerId: [vm.reviewerId.id],
             }
 
-          let endpoint = "medium_execution/add";
+          let endpoint = "screener_reviewer_pair/add";
           let success_message = "created";
 
           if(vm.is_update){
@@ -172,9 +161,9 @@
               id: vm.selectedID
             }
             success_message = "updated";
-            endpoint = "medium_execution/update";
+            endpoint = "screener_reviewer_pair/update";
           }
-            
+
           let { data, status } = await this.$store.dispatch(endpoint, payload);
 
           if ([200, 201].includes(status)) {
@@ -186,7 +175,7 @@
               timeout: 2000,
               color: 'green',
             })
-            this.$router.push({name: 'medium-execution-lists'})
+            this.$router.push({name: 'srp-lists'})
           } else {
 
             Notify.create({

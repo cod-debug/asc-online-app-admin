@@ -100,7 +100,24 @@ export const maintenanceRoutes = [
       },
       {
         path: 'document-size',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/DocumentFileSize/DocuFSIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'document-size-lists',
+            component: () => import('components/Admin/DocumentFileSize/DocuFSLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'document-size-add',
+            component: () => import('components/Admin/DocumentFileSize/DocuFSAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'document-size-update',
+            component: () => import('components/Admin/DocumentFileSize/DocuFSAdd.vue'),
+          }
+        ]
       },
       {
         path: 'email-notification',
@@ -171,15 +188,66 @@ export const maintenanceRoutes = [
       },
       {
         path: 'number-of-multiple-application-allowed',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/NumberOfMultipleAppAllowed/NOMAIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'noma-lists',
+            component: () => import('components/Admin/NumberOfMultipleAppAllowed/NOMALists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'noma-add',
+            component: () => import('components/Admin/NumberOfMultipleAppAllowed/NOMAAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'noma-update',
+            component: () => import('components/Admin/NumberOfMultipleAppAllowed/NOMAAdd.vue'),
+          }
+        ]
       },
       {
         path: 'type-of-rational',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/Rationale/RationaleIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'rational-lists',
+            component: () => import('components/Admin/Rationale/RationaleLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'rational-add',
+            component: () => import('components/Admin/Rationale/RationaleAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'rational-update',
+            component: () => import('components/Admin/Rationale/RationaleAdd.vue'),
+          }
+        ]
       },
       {
         path: 'screener-reviewer-pairs',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/ScreenerReviewerPair/SRPIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'srp-lists',
+            component: () => import('components/Admin/ScreenerReviewerPair/SRPLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'srp-add',
+            component: () => import('components/Admin/ScreenerReviewerPair/SRPAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'srp-update',
+            component: () => import('components/Admin/ScreenerReviewerPair/SRPAdd.vue'),
+          }
+        ]
       },
       {
         path: 'qr-and-bar-code-checker',
