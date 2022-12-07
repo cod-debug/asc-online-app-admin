@@ -426,11 +426,45 @@ export const maintenanceRoutes = [
       },
       {
         path: 'brand-penalties',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/BrandPenalty/BrandPenaltyIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'brand-penalty-lists',
+            component: () => import('components/Admin/BrandPenalty/BrandPenaltyLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'brand-penalty-add',
+            component: () => import('components/Admin/BrandPenalty/BrandPenaltyAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'brand-penalty-update',
+            component: () => import('components/Admin/BrandPenalty/BrandPenaltyAdd.vue'),
+          }
+        ]
       },
       {
         path: 'company-penalties',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/CompanyPenalty/CompanyPenaltyIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'company-penalty-lists',
+            component: () => import('components/Admin/CompanyPenalty/CompanyPenaltyLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'company-penalty-add',
+            component: () => import('components/Admin/CompanyPenalty/CompanyPenaltyAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'company-penalty-update',
+            component: () => import('components/Admin/CompanyPenalty/CompanyPenaltyAdd.vue'),
+          }
+        ]
       },
       {
         path: 'asc-rates',

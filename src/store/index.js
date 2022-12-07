@@ -23,6 +23,8 @@ import document_file_size from "./document_file_size";
 import number_of_multi_app from "./number_of_multi_app";
 import rationale from "./rationale";
 import screener_reviewer_pair from "./screener_reviewer_pair";
+import brand_penalties from "./brand_penalties";
+import company_penalties from "./company_penalties";
 // import example from './module-example'
 
 /*
@@ -61,6 +63,8 @@ export default store(function (/* { ssrContext } */) {
       number_of_multi_app,
       rationale,
       screener_reviewer_pair,
+      brand_penalties,
+      company_penalties
     },
 
     // enable strict mode (adds overhead!)

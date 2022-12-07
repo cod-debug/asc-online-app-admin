@@ -13,10 +13,9 @@
       bordered 
 
       :rows="table_data" 
-      row-key="screener_name" 
+      row-key="id" 
       hide-bottom 
       @row-click="viewDetails" >
-
       </q-table>
 
       <div class="text-right q-mt-md" v-if="max > 0">
@@ -38,9 +37,8 @@
 
     data: () => ({
       columns: [
-        { name: 'screener_name', align: 'left', label: 'Screener Name', field: 'screenuser', sortable: false },
-        { name: 'reviewer_name', align: 'left', label: 'Reviewer Name', field: 'reviewpair', sortable: false },
-        // { name: 'status', align: 'left', label: 'Status', field: 'status', sortable: false },
+        { name: 'brandDesc', align: 'left', label: 'Brand', field: 'brandDesc', sortable: false },
+        { name: 'amount', align: 'left', label: 'Amount', field: 'amount', sortable: false },
       ],
 
       table_data: [],
@@ -79,30 +77,13 @@
         let payload = {
           page: this.current,
           size: vm.size,
-          order: "screenerId:asc",
+          order: "brandId:asc",
           search: "",
         }
         vm.loading_list = true;
-        let { data, status } = await vm.$store.dispatch("screener_reviewer_pair/get", payload);
+        let { data, status } = await vm.$store.dispatch("brand_penalties/get", payload);
         if ([200, 201].includes(status)) {
-          console.log(data.rows);
-          let parsed_rows = data.rows.map((item) => {
-            let parsed = {
-              ...item
-            }
-            for(let column in item) {
-              if (column == 'status') {
-                parsed[column] = item[column] ? "Active" : "Inactive";
-              }
-            }
-          
-            parsed.medium_name = item.mediumtype?.desc || null;
-            parsed.execution_name = item.executiontype?.type || null;
-
-            return parsed;
-          });
-          
-          vm.table_data = parsed_rows;
+          vm.table_data = data.rows;
           vm.current = data.cpage;
           vm.max = data.tpage;
           vm.loading_list = false;
@@ -113,9 +94,19 @@
       },
       
       viewDetails (evt, row) {
-        this.$router.push({name: 'srp-update', params: {
+        this.$router.push({name: 'brand-penalty-update', params: {
           id: row.id
         }});
+      },
+      parseStatus(s) {
+        switch (s) {
+          case "Inactive":
+            return {val: 'inactive', color: 'grey'}
+            break;
+          case "Active":
+            return { val: 'active', color: 'green'}
+            break;
+        }
       },
       closeModal() {
 

@@ -10,28 +10,26 @@
     <div class="q-pa-md">
       <q-card bordered class="my-card" elevated :square="true">
         <q-card-section>
-          <div><q-icon name="label_important" class="text-h6 text-red-15" /> Type of Medium Informations</div>
+          <div><q-icon name="label_important" class="text-h6 text-red-15" /> Brand Penalty Information</div>
           <q-form ref="announcement_form"
                   @submit.prevent="submit"
                   :greedy="true">
             <div class="row">
               <div class="col-6 q-pa-sm">
                 <q-select outlined
-                      label="Screener Name *"
-                      option-label="fullname"
+                      label="Brand *"
+                      option-label="desc"
                       option-value="id"
-                      :options="scrnr_options"
-                      v-model="screenerId"
+                      :options="brands_options"
+                      v-model="brandId"
                       :rules="[val => !!val || 'Field is required']" />
               </div>
               <div class="col-6 q-pa-sm">
-                <q-select outlined
-                      label="Reviewer Name *"
-                        v-model="reviewerId"
-                        :options="rev_options"
-                        option-value="id"
-                        option-label="fullname"
-                        :rules="[val => !!val || 'Field is required']" />
+                <q-input outlined
+                      type="number"
+                      label="Amount *"
+                      v-model="amount"
+                      :rules="[val => !!val || 'Field is required']" />
               </div>
             </div>
           </q-form>
@@ -53,11 +51,10 @@
   export default {
     data: () => ({
       is_loading: false,
-      screenerId: null,
-      reviewerId: null,
+      brandId: null,
+      amount: null,
 
-      scrnr_options: [],
-      rev_options: [],
+      brands_options: [],
     }),
     watch: {
     },
@@ -82,31 +79,25 @@
 
     methods: {
       initApp(){
-        this.getAllUsers();
+        this.getAllBrands();
       },
 
       async validate(evt) {
         return await this.$refs.announcement_form.validate();
       },
 
-      async getAllUsers(){
+      async getAllBrands(){
 
         let vm = this;
         let payload = {
           page: 1,
           size: 1000,
-          order: "fname:asc",
+          order: "desc:asc",
           search: "",
-          filter: "asc",
         }
-        let { data, status } = await vm.$store.dispatch("account/getAllUsers", payload);
+        let { data, status } = await vm.$store.dispatch("brand/get", payload);
         if ([200, 201].includes(status)){
-          vm.scrnr_options = data.rows.filter((item) => {
-            return item.type == 'scrner'
-          });
-          vm.rev_options = data.rows.filter((item) => {
-            return item.type == 'revwer'
-          });
+          vm.brands_options = data.rows;
         }
       },
 
@@ -118,22 +109,17 @@
           id: vm.selectedID
         }
         
-        await this.getAllUsers();
+        await this.getAllBrands();
         
-        let { data, status } = await vm.$store.dispatch("screener_reviewer_pair/getSpecific", payload);
+        let { data, status } = await vm.$store.dispatch("brand_penalties/getSpecific", payload);
         console.log(data);
         if([200, 201].includes(status)){
           for(let column in data){
             vm[column] = data[column];
-            if(column == 'screenerId'){
+            if(column == 'brandId'){
                 // FETCH AND SET SCREENER
-                vm.screenerId = vm.scrnr_options.filter((i) => {
-                  return i.id == data.screenerId;
-                })[0];
-              } else if (column == 'reviewpair'){
-                // FETCH AND SET REVIEWER
-                vm.reviewerId = vm.rev_options.filter((i) => {
-                  return i.id == data['reviewpair'][0].id;
+                vm.brandId = vm.brands_options.filter((i) => {
+                  return i.id == data.brandId;
                 })[0];
               }
           }
@@ -148,11 +134,11 @@
         console.log(await this.validate());
         if (await this.validate()) {
           let payload = {
-              screenerId: vm.screenerId.id,
-              reviewerId: [vm.reviewerId.id],
+              brandId: vm.brandId.id,
+              amount: vm.amount,
             }
 
-          let endpoint = "screener_reviewer_pair/add";
+          let endpoint = "brand_penalties/add";
           let success_message = "created";
 
           if(vm.is_update){
@@ -161,7 +147,7 @@
               id: vm.selectedID
             }
             success_message = "updated";
-            endpoint = "screener_reviewer_pair/update";
+            endpoint = "brand_penalties/update";
           }
 
           let { data, status } = await this.$store.dispatch(endpoint, payload);
@@ -169,13 +155,13 @@
           if ([200, 201].includes(status)) {
 
             Notify.create({
-              message: `Successfully ${success_message} Screener-Reviewer Pair.`,
+              message: `Successfully ${success_message} Brand Penalties.`,
               position: 'top-right',
               closeBtn: "X",
               timeout: 2000,
               color: 'green',
             })
-            this.$router.push({name: 'srp-lists'})
+            this.$router.push({name: 'brand-penalty-lists'})
           } else {
 
             Notify.create({
