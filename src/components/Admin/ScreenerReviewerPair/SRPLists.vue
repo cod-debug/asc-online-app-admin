@@ -33,13 +33,15 @@
 
 
 <script>
+import axios from "axios";
+
   export default {
     name: "member_affiliation_list",
 
     data: () => ({
       columns: [
         { name: 'screener_name', align: 'left', label: 'Screener Name', field: 'screenuser', sortable: false },
-        { name: 'reviewer_name', align: 'left', label: 'Reviewer Name', field: 'reviewpair', sortable: false },
+        { name: 'revs', align: 'left', label: 'Reviewer Name', field: 'revs', sortable: false },
         // { name: 'status', align: 'left', label: 'Status', field: 'status', sortable: false },
       ],
 
@@ -82,33 +84,37 @@
           order: "screenerId:asc",
           search: "",
         }
-        vm.loading_list = true;
-        let { data, status } = await vm.$store.dispatch("screener_reviewer_pair/get", payload);
-        if ([200, 201].includes(status)) {
-          console.log(data.rows);
-          let parsed_rows = data.rows.map((item) => {
-            let parsed = {
-              ...item
-            }
-            for(let column in item) {
-              if (column == 'status') {
-                parsed[column] = item[column] ? "Active" : "Inactive";
-              }
-            }
-          
-            parsed.medium_name = item.mediumtype?.desc || null;
-            parsed.execution_name = item.executiontype?.type || null;
 
-            return parsed;
-          });
-          
-          vm.table_data = parsed_rows;
+        vm.loading_list = true;
+
+        let token = localStorage.getItem('token') || '';
+        const headers = {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': `Bearer ${token.replace('__q_strn|', '')}`
+        }
+        
+        let { data, status } = await axios({
+          method: "get",
+          url: `${process.env.API_BASE_URL}/screener-reviewer-pair/getall/`,
+          params: payload,
+          headers: headers,
+        });
+
+        if ([200, 201].includes(status)) {
+          let parsed = data.rows.map((item) => {
+            return {...item, revs: item.reviewpair.join(", ")}
+          })
+          vm.table_data = parsed;
           vm.current = data.cpage;
           vm.max = data.tpage;
+
           vm.loading_list = false;
         } else {
           vm.loading_list = false;
         }
+
+        return false;
+
 
       },
       
