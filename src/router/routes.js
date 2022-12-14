@@ -8,7 +8,9 @@ const routes = [
   {
     name: "home",
     path: "/",
-    requiresAuth: false,
+    meta: {
+      notRequiredAuth: true,
+    },
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {

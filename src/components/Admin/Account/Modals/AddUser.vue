@@ -63,7 +63,7 @@
             <strong v-if="active_tab == 'UserDetails'"><q-icon name="error_outline" /> Note: Proceed to Account Information to complete adding of ASC user.</strong>
 
             <q-btn class="bg-blue-13 text-white" v-if="active_tab == 'AccountInfo' && !is_update" @click="register"><q-icon name="offline_pin" /> Save</q-btn>
-            <q-btn class="bg-blue-13 text-white" v-if="active_tab == 'AccountInfo' && selected_item.status == 0" @click="approve"><q-icon name="offline_pin" /> Approve</q-btn>
+            <q-btn class="bg-blue-13 text-white" v-if="active_tab == 'AccountInfo' && is_update && selected_item.status == 0" @click="approve"><q-icon name="offline_pin" /> Approve</q-btn>
           </q-card-section>
         </q-card-section>
       </q-card>

@@ -26,8 +26,8 @@ export default route(function ({ store, ssrContext }) {
 
   const accessToken = localStorage.getItem("token");
   const userDetails = localStorage.getItem("user_email");
-  store.commit("auth/setToken", accessToken);
-  store.commit("auth/setUserDetails", userDetails);
+  // store.commit("auth/setToken", accessToken);
+  // store.commit("auth/setUserDetails", userDetails);
 
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
@@ -41,7 +41,9 @@ export default route(function ({ store, ssrContext }) {
     ),
   });
   Router.beforeEach((to, from, next) => {
-    if (to.requiresAuth && !accessToken) {
+    let requiresAuth = to.meta.notRequiredAuth || true;
+    console.log(requiresAuth, "BOL");
+    if (requiresAuth && !accessToken) {
       next({ name: "home" });
     } else next();
   });
