@@ -41,10 +41,9 @@ export default route(function ({ store, ssrContext }) {
     ),
   });
   Router.beforeEach((to, from, next) => {
-    let requiresAuth = to.meta.notRequiredAuth || true;
-    console.log(requiresAuth, "BOL");
-    if (requiresAuth && !accessToken) {
-      next({ name: "home" });
+    let requiresAuth = to.meta.notRequiredAuth || false;
+    if (!requiresAuth && !accessToken) {
+      next({ name: "home-page" });
     } else next();
   });
 
