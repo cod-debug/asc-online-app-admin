@@ -30,6 +30,11 @@ const routes = [
         path: "",
         component: () => import("components/Admin/Dashboard/DashboardIndex.vue"),
       },
+      {
+        name: "dashboard",
+        path: "announcement",
+        component: () => import("pages/AnnouncementView.vue"),
+      },
       ...maintenanceRoutes,
       ...accountRoutes,
       ...companyRoutes

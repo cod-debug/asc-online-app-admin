@@ -129,7 +129,7 @@ export default {
 
             // :4220/#/asc/page/application/s1/individual?token=<token>
             //this.$router.push('/asc/page/');
-            window.location.href='/asc/page/';
+            window.location.href='/asc/page/announcement';
           } else {
             this.$q.dialog({
               message: data.message,
