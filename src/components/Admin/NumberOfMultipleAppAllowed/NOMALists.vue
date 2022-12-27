@@ -31,7 +31,8 @@
 
     data: () => ({
       columns: [
-        { name: 'size', align: 'left', label: 'Document Size', field: 'size', sortable: false },
+        { name: 'minimum', align: 'left', label: 'Minimum', field: 'minimum', sortable: false },
+        { name: 'maximum', align: 'left', label: 'Maximum', field: 'maximum', sortable: false },
       ],
 
       table_data: [],
@@ -71,7 +72,7 @@
           id: 1,
         }
         vm.loading_list = true;
-        let { data, status } = await vm.$store.dispatch("document_file_size/getSpecific", payload);
+        let { data, status } = await vm.$store.dispatch("number_of_multi_app/getSpecific", payload);
         if ([200, 201].includes(status)) {
           let parsed_rows = [{
             size: data.size,

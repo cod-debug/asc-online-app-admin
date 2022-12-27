@@ -107,7 +107,8 @@
       <hr class="q-tabs-gutter" color="lightgray" />
 
       <div>
-        <q-btn color="primary" class="q-mt-xl" @click="submit"><q-icon name="save" /> Save</q-btn>
+        <q-btn color="primary" class="q-mt-xl" @click="submit"><q-icon name="save" /> {{is_update ? 'Save Changes' : 'Save'}}</q-btn>
+        <q-btn color="red-14" outline class="q-mt-xl q-ml-md" :to="{name:'company-lists'}"><q-icon name="cancel"/> Cancel</q-btn>
       </div>
 
     </div>
@@ -119,7 +120,7 @@
     data: () => ({
       add_company: true,
       company_name: "",
-      affiliation: "",
+      affiliation: {},
       mobile_num: "",
       telephone_number: "",
       alt_telephone_number: "",
@@ -136,6 +137,22 @@
     mounted() {
       this.initApp();
     },
+    
+    computed: {
+      is_update(){
+        if(this.$route.params.id){
+          this.getSpecific();
+          return true;
+        } else {
+          this.initApp();
+          return false;
+        }
+      },
+
+      selectedID(){
+        return this.$route.params.id
+      }
+    },
 
     methods: {
 
@@ -145,6 +162,7 @@
 
       async submit() {
         console.log(await this.validate());
+        let vm = this;
 
         if (await this.validate()) {
           let payload = {
@@ -167,10 +185,24 @@
             "affiliateID": this.affiliation.id
           }
 
-          let { data, status } = await this.$store.dispatch('company/addCompany', payload);
+          
+
+          let endpoint = "company/add";
+          let success_message = "created";
+
+          if(vm.is_update){
+            payload = {
+              data: payload,
+              id: vm.selectedID
+            }
+            success_message = "updated";
+            endpoint = "company/update";
+          }
+
+          let { data, status } = await this.$store.dispatch(endpoint, payload);
           if ([200, 201].includes(status)) {
             Notify.create({
-              message: 'Successfully added company.',
+              message: `Successfully ${success_message} company.`,
               position: 'top-right',
               closeBtn: "X",
               timeout: 2000,
@@ -197,6 +229,44 @@
 
       initApp() {
         this.getAllAffiliation();
+      },
+
+      async getSpecific(){
+        let vm = this;
+
+        vm.is_loading = true;
+        let payload = {
+          id: vm.selectedID
+        }
+        
+        await this.getAllAffiliation();
+        
+        let { data, status } = await vm.$store.dispatch("company/getSpecific", payload);
+        // console.log(data);
+        if([200, 201].includes(status)){
+          vm.company_name = data.name;
+          vm.company_address = data.address;
+          vm.affiliation.id = data.affiliateId;
+          vm.country = data.country.code;
+          vm.company_tin = data.tinno;
+          vm.telephone_number = data.phone;
+          vm.mobile_num = data.mobile,
+
+
+          // for(let column in data){
+          //   vm[column] = data[column];
+          //   if(column == 'compId'){
+          //       // FETCH AND SET SCREENER
+          //       vm.compId = vm.company_options.filter((i) => {
+          //         return i.id == data.compId;
+          //       })[0];
+          //     }
+          // }
+
+
+          vm['static_val'] = data.static;
+        }
+        vm.is_loading = false;
       },
 
       async getAllAffiliation() {

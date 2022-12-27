@@ -19,13 +19,13 @@
 
 					<q-tab name="asc" label="ASC Users" @click="setActiveTab('asc')" />
 					
-					<q-btn label="Add ASC User" elevated class="q-my-md" id="addAscUser" size="sm" icon="add_circle" v-if="tab == 'asc'" color="primary" @click="showAddASCUser" />
+					<q-btn label="Add ASC User" elevated class="q-my-md" id="addAscUser" size="sm" icon="add_circle" v-if="tab == 'asc'" color="primary" @click="showAddASCUser(false)" />
 				</q-tabs>
 
 				<hr class="q-tabs-gutter" color="lightgray" />
 
 				<app-non-asc-table v-if="tab == 'nonasc'" ref="nonasc" />
-				<app-asc-table v-else-if="tab == 'asc'" ref="asc" />
+				<app-asc-table v-else-if="tab == 'asc'" ref="asc" :update="is_update" />
 			</q-card-section>
 		</q-card>
 	</div>
@@ -43,6 +43,7 @@ export default {
 			all_nonc: [],
 			loading: true,
 			tab: "nonasc",
+			is_update: false,
 		}),
 
 		components: {
@@ -57,8 +58,9 @@ export default {
 			setActiveTab(tab){
 				this.tab = tab;
 			},
-			showAddASCUser() {
+			showAddASCUser(up) {
 				this.$refs.asc.show_modal_user = true;
+				this.$refs.asc.is_update = up;
 			}
 		},
 		setup () {

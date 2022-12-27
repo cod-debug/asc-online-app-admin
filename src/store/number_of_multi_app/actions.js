@@ -20,7 +20,7 @@ export const add = async ({ commit }, payload) => {
     try {
         res = await axios({
         method: "post",
-        url: `${getEnv('API_BASE_URL')}/main-document-size/create`,
+        url: `${getEnv('API_BASE_URL')}/application-number-multi/create`,
         data: payload,
         headers: headers,
         })
@@ -38,7 +38,7 @@ export const get = async ({ commit }, payload) => {
     try {
         res = await axios({
         method: "get",
-        url: `${getEnv('API_BASE_URL')}/main-document-size/getall/`,
+        url: `${getEnv('API_BASE_URL')}/application-number-multi/getall/`,
         params: payload,
         headers: headers,
         })
@@ -56,7 +56,7 @@ export const update = async ({ commit }, payload) => {
     try {
         res = await axios({
         method: "post",
-        url: `${getEnv('API_BASE_URL')}/main-document-size/update/?id=${payload.id}`,
+        url: `${getEnv('API_BASE_URL')}/application-number-multi/update/?id=${payload.id}`,
         data: payload.data,
         headers: headers,
         })
@@ -72,7 +72,7 @@ export const getSpecific = async ({ commit }, payload) => {
     try {
         res = await axios({
         method: "get",
-        url: `${getEnv('API_BASE_URL')}/main-document-size/getone/`,
+        url: `${getEnv('API_BASE_URL')}/application-number-multi/getone/`,
         params: payload,
         headers: headers,
         })

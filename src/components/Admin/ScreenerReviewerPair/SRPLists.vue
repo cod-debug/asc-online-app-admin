@@ -14,9 +14,31 @@
 
       :rows="table_data" 
       row-key="screener_name" 
-      hide-bottom 
-      @row-click="viewDetails" >
-
+      hide-bottom >
+      
+        <template #body="props">
+          <q-tr
+            :props="props"
+            hover
+            @click="viewDetails(props.row)"
+            style="cursor: pointer"
+          >
+            <q-td
+              key="screener_name"
+              :props="props"
+            >
+              {{ props.row.screenuser.fname   || '--' }}
+              {{ props.row.screenuser.lname   || '--' }}
+            </q-td>
+            <q-td
+              key="revs"
+              :props="props"
+            >
+              {{ props.row.reviewer[0].fname   || '--' }}
+              {{ props.row.reviewer[0].lname   || '--' }}
+            </q-td>
+          </q-tr>
+        </template>
       </q-table>
 
       <div class="text-right q-mt-md" v-if="max > 0">
@@ -102,7 +124,7 @@ import axios from "axios";
 
         if ([200, 201].includes(status)) {
           let parsed = data.rows.map((item) => {
-            return {...item, revs: item.reviewpair.join(", ")}
+            return {...item, revs: item.reviewer.join(", ")}
           })
           vm.table_data = parsed;
           vm.current = data.cpage;
@@ -118,7 +140,7 @@ import axios from "axios";
 
       },
       
-      viewDetails (evt, row) {
+      viewDetails (row) {
         this.$router.push({name: 'srp-update', params: {
           id: row.id
         }});

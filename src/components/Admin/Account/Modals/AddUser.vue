@@ -61,8 +61,9 @@
             </q-card>
 
             <strong v-if="active_tab == 'UserDetails'"><q-icon name="error_outline" /> Note: Proceed to Account Information to complete adding of ASC user.</strong>
-
+            <br />
             <q-btn class="bg-blue-13 text-white" v-if="active_tab == 'AccountInfo' && !is_update" @click="register"><q-icon name="offline_pin" /> Save</q-btn>
+            <q-btn class="bg-blue-13 text-white" v-if="is_update" @click="register"><q-icon name="offline_pin" /> Save Updates</q-btn>
             <q-btn class="bg-blue-13 text-white" v-if="active_tab == 'AccountInfo' && is_update && selected_item.status == 0" @click="approve"><q-icon name="offline_pin" /> Approve</q-btn>
           </q-card-section>
         </q-card-section>
@@ -72,7 +73,6 @@
 </template>
 
 <script>
-import { stat } from 'fs';
 import { Notify } from 'quasar';
 
 
@@ -151,11 +151,26 @@ import { Notify } from 'quasar';
           "status": 1,
         }
 
-        let {data, status} = await vm.$store.dispatch("users/registerUser", payload);
+        let endpoint = "users/registerUser";
+
+        if(vm.is_update){
+          delete payload.passwd;
+          payload = {
+            data: {
+              ...payload
+            },
+            params: {
+              id: vm.selected_item.id
+            }
+          }
+          endpoint = "users/updateUser";
+        }
+
+        let {data, status} = await vm.$store.dispatch(endpoint, payload);
 
         if([200, 201].includes(status)){
           Notify.create({
-            message: `Successfully ${success_message} Registered.`,
+            message: data.message,
             position: 'top-right',
             closeBtn: "X",
             timeout: 2000,
@@ -218,6 +233,8 @@ import { Notify } from 'quasar';
 
         if(this.is_update){
           this.getSpecific();
+        } else {
+
         }
       }
     }

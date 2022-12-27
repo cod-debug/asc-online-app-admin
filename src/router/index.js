@@ -6,7 +6,7 @@ import {
   createWebHashHistory,
 } from "vue-router";
 import routes from "./routes";
-import { LocalStorage } from "quasar";
+import { LocalStorage, Notify } from "quasar";
 
 /*
  * If not building with SSR mode, you can
@@ -42,10 +42,17 @@ export default route(function ({ store, ssrContext }) {
   });
   Router.beforeEach((to, from, next) => {
     let requiresAuth = to.meta.notRequiredAuth || false;
+
     if (!requiresAuth && !accessToken) {
+      Notify.create({
+        message: `Unauthorized user detected.`,
+        position: 'top-right',
+        closeBtn: "X",
+        timeout: 2000,
+        color: 'red',
+      })
       next({ name: "home-page" });
     } else next();
   });
-
   return Router;
 });

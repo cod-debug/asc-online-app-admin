@@ -113,7 +113,7 @@
               timeout: 2000,
               color: 'green',
             })
-            this.$router.push({name: 'document-size-lists'})
+            // this.$router.push({name: 'document-size-'})
           } else {
 
             Notify.create({

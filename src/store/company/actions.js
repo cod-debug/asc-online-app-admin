@@ -16,7 +16,7 @@ export function getEnv(name) {
   return config[name];
 }
 
-export const getAllCompanies = async ({ commit }, payload) => {
+export const getAllCompanyList = async ({ commit }, payload) => {
   let res = null;
   try {
     res = await axios({
@@ -32,6 +32,22 @@ export const getAllCompanies = async ({ commit }, payload) => {
   return res;
 }
 
+
+export const getAllCompanies = async ({ commit }, payload) => {
+  let res = null;
+  try {
+    res = await axios({
+      method: "get",
+      url: `${getEnv("API_BASE_URL")}/company/getall/`,
+      params: payload,
+      headers: headers,
+    })
+  } catch (e) {
+    res.data = e
+    res.status = 400
+  }
+  return res;
+}
 
 export const getListCompanies = async ({ commit }, payload) => {
   let res = {};
@@ -63,4 +79,37 @@ export const addCompany = async ({ commit }, payload) => {
     res.status = 400
   }
   return res;
+}
+
+
+export const update = async ({ commit }, payload) => {
+  let res = {};
+  try {
+      res = await axios({
+      method: "post",
+      url: `${getEnv('API_BASE_URL')}/company/update/?id=${payload.id}`,
+      data: payload.data,
+      headers: headers,
+      })
+  } catch (e) {
+      res.data = e.response.data
+      res.status = e.response.status
+  }
+  return res;
+}
+
+export const getSpecific = async ({ commit }, payload) => {
+    let res = {};
+    try {
+        res = await axios({
+        method: "get",
+        url: `${getEnv('API_BASE_URL')}/company/getone/`,
+        params: payload,
+        headers: headers,
+        })
+    } catch (e) {
+        res.data = e.response.data
+        res.status = e.response.status
+    }
+    return res;
 }

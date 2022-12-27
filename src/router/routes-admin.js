@@ -406,7 +406,24 @@ export const maintenanceRoutes = [
       },
       {
         path: 'holidays',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/Holiday/HolidayIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'holiday-lists',
+            component: () => import('components/Admin/Holiday/HolidayLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'holiday-add',
+            component: () => import('components/Admin/Holiday/HolidayAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'holiday-update',
+            component: () => import('components/Admin/Holiday/HolidayAdd.vue'),
+          }
+        ]
       },
       {
         path: 's1-s2-expiration-periods',
@@ -528,8 +545,82 @@ export const companyRoutes = [
         path: 'add',
         name: 'company-add',
         component: () => import('components/Admin/Company/CompanyAdd.vue')
+      },
+      {
+        path: 'update/:id',
+
+        name: 'company-update',
+        component: () => import('components/Admin/Company/CompanyAdd.vue'),
       }
     ]
   },
 ];
 
+export const S1applicationRoutes = [
+  {
+    path: 'application/s1',
+    component: () => import('components/Admin/S1Applications/MainForm.vue'),
+    children: [
+      {
+        path: 'lists',
+        name: 's1-individual-lists',
+        component: () => import('components/Admin/S1Applications/IndividualIndex.vue'),
+      },
+      {
+        path: 'multiple',
+        name: 's1-multiple-lists',
+        component: () => import('components/Admin/S1Applications/MultipleIndex.vue'),
+      },
+      {
+        path: 'special',
+        name: 's1-special-lists',
+        component: () => import('components/Admin/S1Applications/SpecialIndex.vue'),
+      },
+      {
+        path: 'for-release',
+        name: 's1-for-release-lists',
+        component: () => import('components/Admin/S1Applications/ForRelease.vue'),
+      },
+      {
+        path: 'released',
+        name: 's1-released-lists',
+        component: () => import('components/Admin/S1Applications/ReleasedIndex.vue'),
+      },
+      {
+        name: "individual-application-update",
+        path: "update/:id",
+        component: () => import("pages/S1Applications/DetailsIndex.vue"),
+      },
+    ]
+  },
+];
+
+
+export const S2applicationRoutes = [
+  {
+    path: 'application/s2',
+    component: () => import('components/Admin/S2Applications/MainForm.vue'),
+    children: [
+      {
+        path: 'lists',
+        name: 's2-individual-lists',
+        component: () => import('components/Admin/S2Applications/IndividualIndex.vue'),
+      },
+      {
+        path: 'multiple',
+        name: 's2-multiple-lists',
+        component: () => import('components/Admin/S2Applications/MultipleIndex.vue'),
+      },
+      {
+        path: 'special',
+        name: 's2-special-lists',
+        component: () => import('components/Admin/S2Applications/SpecialIndex.vue'),
+      },
+      {
+        name: "s2-individual-application-update",
+        path: "update/:id",
+        component: () => import("pages/S2Applications/DetailsIndex.vue"),
+      },
+    ]
+  },
+];

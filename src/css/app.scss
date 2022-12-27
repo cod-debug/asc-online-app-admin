@@ -327,3 +327,13 @@ input[type='text-pass'] {
   background-color: #8fcf8f;
 }
 
+
+.no-data-found {
+  border: 5px solid $red-14;
+  padding: 10px;
+  background-color: $red-2;
+  color: $red-14;
+  border-right: 0;
+  border-bottom: 0;
+  border-top: 0;
+}

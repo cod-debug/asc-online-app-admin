@@ -83,6 +83,7 @@ export default {
           email: this.email_address,
           passwd: this.password
         }
+        
         this.is_loading = true;
 
         try {
@@ -136,6 +137,7 @@ export default {
               title: 'Access Denied!',
               progress: false,
               color: "red-14",
+              theme: "modern",
               ok: true,
             });
           }

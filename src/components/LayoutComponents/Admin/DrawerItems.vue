@@ -185,7 +185,7 @@ export default {
               icon: "fa-solid fa-caret-right",
               label: "Main Document File Size",
               count: null,
-              path: "/asc/page/maintenance/document-size",
+              path: "/asc/page/maintenance/document-size/update/1",
             },
             {
               icon: "fa-solid fa-caret-right",
@@ -215,7 +215,7 @@ export default {
               icon: "fa-solid fa-caret-right",
               label: "Number of Multiple Application Allowed",
               count: null,
-              path: "/asc/page/maintenance/number-of-multiple-application-allowed",
+              path: "/asc/page/maintenance/number-of-multiple-application-allowed/update/1",
             },
             {
               icon: "fa-solid fa-caret-right",
@@ -229,12 +229,12 @@ export default {
               count: null,
               path: "/asc/page/maintenance/screener-reviewer-pairs",
             },
-            {
-              icon: "fa-solid fa-caret-right",
-              label: "QR and Barcode Checker",
-              count: null,
-              path: "/asc/page/maintenance/qr-and-bar-code-checker",
-            },
+            // {
+            //   icon: "fa-solid fa-caret-right",
+            //   label: "QR and Barcode Checker",
+            //   count: null,
+            //   path: "/asc/page/maintenance/qr-and-bar-code-checker",
+            // },
             {
               icon: "fa-solid fa-caret-right",
               label: "Application Reassignment",
@@ -352,24 +352,24 @@ export default {
             },
           ]
         },
-        {
-          icon: "fa-solid fa-star",
-          label: "Rates",
-          children: [
-            {
-              icon: "fa-solid fa-caret-right",
-              label: "Maintenance of Fees (ASC Rates)",
-              count: null,
-              path: "/asc/page/maintenance/asc-rates",
-            },
-            {
-              icon: "fa-solid fa-caret-right",
-              label: "ASC Rates - Special",
-              count: null,
-              path: "/asc/page/maintenance/asc-rates-special",
-            },
-          ]
-        },
+        // {
+        //   icon: "fa-solid fa-star",
+        //   label: "Rates",
+        //   children: [
+        //     {
+        //       icon: "fa-solid fa-caret-right",
+        //       label: "Maintenance of Fees (ASC Rates)",
+        //       count: null,
+        //       path: "/asc/page/maintenance/asc-rates",
+        //     },
+        //     {
+        //       icon: "fa-solid fa-caret-right",
+        //       label: "ASC Rates - Special",
+        //       count: null,
+        //       path: "/asc/page/maintenance/asc-rates-special",
+        //     },
+        //   ]
+        // },
         {
           icon: "fa-solid fa-info-circle",
           label: "Announcement",
@@ -380,6 +380,16 @@ export default {
   },
   mounted() {
     this.initApp();
+    
+
+    // setInterval(async () => {
+    //   let {data, status} = await this.$store.dispatch("asc_user/getCountByRole");
+    //   if([200, 201].includes(status)){
+    //     vm.drawerItems[0].children[0].count = data.individualCount;
+    //     vm.drawerItems[0].children[1].count = data.multipleCount;
+    //     vm.drawerItems[0].children[2].count = data.specialCount;
+    //   }
+    // }, 1000);
   }
 }
 </script>

@@ -4,15 +4,21 @@
     <div class="q-pa-md">
       <q-card bordered class="my-card" elevated :square="true">
         <q-card-section>
-          <div><q-icon name="label_important" class="text-h6 text-red-15" /> Document Information</div>
+          <div><q-icon name="label_important" class="text-h6 text-red-15" /> Number of Multiple Application Allowed</div>
           <q-form ref="announcement_form"
                   @submit.prevent="submit"
                   :greedy="true">
             <div class="row">
-              <div class="col-sm-12 col-md-12 q-pa-sm">
+              <div class="col-sm-12 col-md-6 q-pa-sm">
                 <q-input outlined
-                         label="Size *"
-                         v-model="size"
+                         label="Min *"
+                         v-model="minimum"
+                         :rules="[val => !!val || 'Field is required']" />
+              </div>
+              <div class="col-sm-12 col-md-6 q-pa-sm">
+                <q-input outlined
+                         label="Max *"
+                         v-model="maximum"
                          :rules="[val => !!val || 'Field is required']" />
               </div>
             </div>
@@ -34,7 +40,8 @@
 
   export default {
     data: () => ({
-      size: "",
+      minimum: null,
+      maximum: null,
     }),
     watch: {
     },
@@ -69,7 +76,7 @@
           id: vm.selectedID
         }
         
-        let { data, status } = await this.$store.dispatch("document_file_size/getSpecific", payload);
+        let { data, status } = await this.$store.dispatch("number_of_multi_app/getSpecific", payload);
         console.log(data);
         if([200, 201].includes(status)){
           for(let column in data){
@@ -88,9 +95,10 @@
         console.log(await this.validate());
         if (await this.validate()) {
           let payload = {
-              size: vm.size,
-            }
-          let endpoint = "document_file_size/add";
+            minimum: vm.minimum,
+            maximum: vm.maximum,
+          }
+          let endpoint = "number_of_multi_app/add";
           let success_message = "created";
           if(vm.is_update){
             payload = {
@@ -98,7 +106,7 @@
               id: vm.selectedID
             }
             success_message = "updated";
-            endpoint = "document_file_size/update";
+            endpoint = "number_of_multi_app/update";
             
           }
           console.log(payload);
@@ -114,7 +122,7 @@
               timeout: 2000,
               color: 'green',
             })
-            this.$router.push({name: 'document-size-lists'})
+            // this.$router.push({name: 'document-size-lists'})
           } else {
 
             Notify.create({

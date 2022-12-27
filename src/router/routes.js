@@ -2,6 +2,8 @@ import {
   maintenanceRoutes,
   accountRoutes,
   companyRoutes,
+  S1applicationRoutes,
+  S2applicationRoutes,
 } from "./routes-admin.js";
 
 const routes = [
@@ -40,7 +42,9 @@ const routes = [
       },
       ...maintenanceRoutes,
       ...accountRoutes,
-      ...companyRoutes
+      ...companyRoutes,
+      ...S1applicationRoutes,
+      ...S2applicationRoutes,
     ]
   }
 

@@ -9,7 +9,8 @@
       <q-table :columns="columns"
                flat
                :rows="table_data"
-               hide-bottom>
+               hide-bottom
+              @row-click="viewDetails" >
 
       </q-table>
       <div class="text-right q-mt-md">
@@ -85,6 +86,13 @@
 
         vm.loading_list = false;
       },
+      
+      viewDetails (evt, row) {
+        this.$router.push({name: 'company-update', params: {
+          id: row.id
+        }});
+      },
+
       closeModal() {
 
       }

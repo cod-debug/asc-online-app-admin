@@ -25,6 +25,10 @@ import rationale from "./rationale";
 import screener_reviewer_pair from "./screener_reviewer_pair";
 import brand_penalties from "./brand_penalties";
 import company_penalties from "./company_penalties";
+import s1 from "./s1";
+import asc_user from "./asc_user";
+import holiday from "./holiday";
+import application_expiration from "./application_expiration";
 // import example from './module-example'
 
 /*
@@ -64,7 +68,11 @@ export default store(function (/* { ssrContext } */) {
       rationale,
       screener_reviewer_pair,
       brand_penalties,
-      company_penalties
+      company_penalties,
+      s1,
+      asc_user,
+      holiday,
+      application_expiration,
     },
 
     // enable strict mode (adds overhead!)

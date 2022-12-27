@@ -57,7 +57,7 @@
 
   import AddUserModal from "../Modals/AddUser.vue";
 export default {
-  props: ["tableData"],
+  props: ["tableData", "update"],
 data: () => ({
   rows: [],
   is_update: false,
