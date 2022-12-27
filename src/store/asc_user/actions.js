@@ -128,3 +128,20 @@ export const getPerReleaseStatus = async ({ commit }, payload) => {
   }
   return res;
 }
+
+export const sendDecision = async ({ commit }, payload) => {
+  let res = {};
+  try {
+      res = await axios({
+      method: "GET",
+      url: `${getEnv('API_BASE_URL')}${prefix}/super-admin/generate-and-send/${payload.id}`,
+      headers: headers,
+      })
+  } catch (e) {
+      res.data = e?.response?.data || null
+      res.status = e?.response?.status || null
+  }
+  return res;
+}
+
+// super-admin/generate-and-send/152

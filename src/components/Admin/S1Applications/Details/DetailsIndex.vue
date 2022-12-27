@@ -30,8 +30,8 @@
           </div>
         </div>
         <div class="row q-my-md">
-          <div class="col-12 q-px-sm text-right">
-            <!-- <q-btn color="red-14" class="q-mt-md" label="SEND DECISION OR STAMPED MATERIAL" icon="send" @click="show_confirm_send = true" v-if="decision_status || release_status" /> -->
+          <div class="col-12 q-px-sm text-right" v-if="!isSpecialApp">
+            <q-btn color="red-14" class="q-mt-md" label="SEND DECISION OR STAMPED MATERIAL" icon="send" @click="show_confirm_send = true" v-if="decision_status || release_status" />
             <!-- <q-btn color="red-14" label="FORWARD TO AD SPECIALIST" @click="verifyApp(true)" icon="verified" class="q-mr-sm" /> -->
           </div>
         </div>
@@ -110,7 +110,7 @@
       <!-- <disapprove-modal :disapproveFunction="verifyApp" /> -->
     </q-card>
     <div class="q-pa-md q-gutter-sm">
-      <q-dialog v-model="show_confirm_send" persistent transition-show="scale" transition-hide="scale">
+      <q-dialog v-model="show_approve" persistent transition-show="scale" transition-hide="scale">
         <q-card class="bg-teal text-white" style="width: 300px">
           <q-card-section>
             <div class="text-h6">Confirmation</div>
@@ -122,6 +122,25 @@
 
           <q-card-actions align="right" class="bg-white text-teal">
             <q-btn flat label="OK" v-close-popup @click="confirmApproval(selected_decision)" />
+            <q-btn flat label="CANCEL" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </div>
+    
+    <div class="q-pa-md q-gutter-sm">
+      <q-dialog v-model="show_confirm_send" persistent transition-show="scale" transition-hide="scale">
+        <q-card class="bg-teal text-white" style="width: 300px">
+          <q-card-section>
+            <div class="text-h6">Confirmation</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            Are you sure you want to send this application application form?
+          </q-card-section>
+
+          <q-card-actions align="right" class="bg-white text-teal">
+            <q-btn flat label="OK" v-close-popup @click="sendDecisionOrStamped()" />
             <q-btn flat label="CANCEL" v-close-popup />
           </q-card-actions>
         </q-card>
@@ -180,6 +199,7 @@ import { stat } from "fs";
       show_disapprove_modal: false,
       is_loading: true,
       show_confirm_send: false,
+      show_approve: false,
       selected_decision: null,
 
       "internal_comment_input": "",
