@@ -427,7 +427,24 @@ export const maintenanceRoutes = [
       },
       {
         path: 's1-s2-expiration-periods',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/S1S2Expiration/ExpirationIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 's1-s2-expiration-lists',
+            component: () => import('components/Admin/S1S2Expiration/ExpirationLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 's1-s2-expiration-add',
+            component: () => import('components/Admin/S1S2Expiration/ExpirationAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 's1-s2-expiration-update',
+            component: () => import('components/Admin/S1S2Expiration/ExpirationAdd.vue'),
+          }
+        ]
       },
       {
         path: 's1-fees-settlement-period',

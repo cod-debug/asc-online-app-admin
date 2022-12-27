@@ -295,22 +295,24 @@ import { Notify } from "quasar";
       },
 
       update(row) {
-        this.selected_item = row;
-        if(row.isLocked){
-          if(this.isOwned(row)){
-            this.$router.push({ name: "individual-application-update", params: { id: row.id } });
-          } else {
-            Notify.create({
-              message: "This application does not belong to you.",
-              position: 'top-right',
-              closeBtn: "X",
-              timeout: 2000,
-              color: 'red',
-            });
-          }
-        } else {
-          this.lockModal = true;
-        }
+        // this.selected_item = row;
+        // if(row.isLocked){
+        //   if(this.isOwned(row)){
+        //     this.$router.push({ name: "individual-application-update", params: { id: row.id } });
+        //   } else {
+        //     Notify.create({
+        //       message: "This application does not belong to you.",
+        //       position: 'top-right',
+        //       closeBtn: "X",
+        //       timeout: 2000,
+        //       color: 'red',
+        //     });
+        //   }
+        // } else {
+        //   this.lockModal = true;
+        // }
+        
+        this.$router.push({ name: "individual-application-update", params: { id: row.id } });
       },
       
 

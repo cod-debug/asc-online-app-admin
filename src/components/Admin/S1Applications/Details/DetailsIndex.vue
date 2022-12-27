@@ -2,7 +2,7 @@
   <div class="q-pa-md q-mt-lg q-ml-lg">
     <q-card bordered class="my-card" elevated>
       <q-card-section class="row">
-        <div class="text-h6 page-title text-dark col-md-6"><q-icon name="list" />  S1 APPLICATION -  INDIVIDUAL</div>
+        <div class="text-h6 page-title text-dark col-md-6"><q-icon name="list" />  S1 APPLICATION -  {{ isSpecialApp ? application_type.toUpperCase() : form_group.toUpperCase() }}</div>
         <div class="text-right col-md-6">
           <q-btn label="VIEW APPLICATIONS" elevated class="q-mr-sm position-right" size="md" icon="list" color="red-14" @click="backToList" />
         </div>
@@ -31,17 +31,20 @@
         </div>
         <div class="row q-my-md">
           <div class="col-12 q-px-sm text-right">
-            <q-btn color="red-14" class="q-mt-md" label="SEND DECISION OR STAMPED MATERIAL" icon="send" @click="show_confirm_send = true" v-if="decision_status || release_status" />
+            <!-- <q-btn color="red-14" class="q-mt-md" label="SEND DECISION OR STAMPED MATERIAL" icon="send" @click="show_confirm_send = true" v-if="decision_status || release_status" /> -->
             <!-- <q-btn color="red-14" label="FORWARD TO AD SPECIALIST" @click="verifyApp(true)" icon="verified" class="q-mr-sm" /> -->
           </div>
         </div>
         <q-list class="rounded-borders" v-if="!is_loading">
-          <ClientInformation class="q-mb-sm" />
-          <q-separator />
+          <InitialInformation v-if="isSpecialApp" />
+          <q-separator v-if="isSpecialApp" />
+
+          <ClientInformation class="q-mb-sm"  v-if="!isSpecialApp" />
+          <q-separator  v-if="!isSpecialApp" />
           <PresentorInformation class="q-mb-sm" />
           <q-separator />
-          <MaterialInformation :appId="$route.params.id" class="q-mb-sm" :selected_item="selected_item" v-if="type_of_medium" />
-          <StampMaterials />
+          <MaterialInformation :appId="$route.params.id" class="q-mb-sm" :selected_item="selected_item" v-if="type_of_medium && !isSpecialApp" />
+          <StampMaterials v-if="!isSpecialApp" />
          
         </q-list>
         <div v-else>
@@ -52,7 +55,7 @@
         </div>
       </q-card-section>
 
-      <q-card-section>
+      <q-card-section v-if="!isSpecialApp">
         <q-card :square="true">
           <q-card-section>
 
@@ -100,9 +103,9 @@
         </q-card>
 
       </q-card-section>
-      <q-card-section>
-        <!-- <q-btn color="red-14" label="FORWARD TO AD SPECIALIST" @click="verifyApp(true)" icon="verified" class="q-mr-sm" />
-        <q-btn color="red-14" label="REJECT" icon="unpublished" @click="disapproveApp" /> -->
+      <q-card-section v-if="isSpecialApp">
+        <q-btn color="primary" label="Approve" @click="approval(true)" icon="thumb_up_alt" class="q-mr-sm" />
+        <q-btn color="red-14" label="Disapprove" @click="approval(false)" icon="thumb_down_alt" class="q-mr-sm" />
       </q-card-section>
       <!-- <disapprove-modal :disapproveFunction="verifyApp" /> -->
     </q-card>
@@ -114,11 +117,11 @@
           </q-card-section>
 
           <q-card-section class="q-pt-none">
-            Are you sure you want to send this application form?
+            Are you sure you want to {{selected_decision}} this application?
           </q-card-section>
 
           <q-card-actions align="right" class="bg-white text-teal">
-            <q-btn flat label="OK" v-close-popup @click="sendDecisionOrStamped()" />
+            <q-btn flat label="OK" v-close-popup @click="confirmApproval(selected_decision)" />
             <q-btn flat label="CANCEL" v-close-popup />
           </q-card-actions>
         </q-card>
@@ -131,6 +134,7 @@
   import PresentorInformation from "./Items/PresentorInformation";
   import MaterialInformation from "./Items/MaterialInformation";
   import RichText from "components/AddOns/RichText";
+  import InitialInformation from "./Items/InitialInformation.vue";
   // import DisapproveModal from "./Modals/DisapproveModal.vue";
   import StampMaterials from "./Items/StampMaterials.vue";
 import { Notify } from "quasar";
@@ -141,11 +145,15 @@ import { stat } from "fs";
       PresentorInformation,
       MaterialInformation,
       RichText,
+      InitialInformation,
       // DisapproveModal,
       StampMaterials,
     },
 
     computed: {
+      isSpecialApp(){
+        return  ["SPECIAL SCREENING"].includes(this.application_type);
+      },
       disable_comment_btn() {
         if (this.tab === 'internal_comments_tab' && this.internal_comment_input !== '') {
           return false;
@@ -172,6 +180,7 @@ import { stat } from "fs";
       show_disapprove_modal: false,
       is_loading: true,
       show_confirm_send: false,
+      selected_decision: null,
 
       "internal_comment_input": "",
       "external_comment_input": "",
@@ -273,6 +282,21 @@ import { stat } from "fs";
             };
         }
       },
+      approval(decision){
+        this.selected_decision = decision ? "approve" : "disapprove";
+        this.show_confirm_send = true;
+      },
+
+      confirmApproval(){
+        Notify.create({
+          message: "For BE Integration",
+          position: 'top-right',
+          closeBtn: "X",
+          timeout: 2000,
+          color: 'red',
+        });
+      },
+
       disapproveApp(){
         this.show_disapprove_modal = true;
       },
@@ -289,7 +313,8 @@ import { stat } from "fs";
         this.getSpecific();
       },
       backToList() {
-        this.$router.push({ name: "s1-individual-lists" });
+        // this.$router.push({ name: "s1-individual-lists" });
+        this.$router.go(-1);
       },
 
       async getSpecific(){
@@ -319,7 +344,7 @@ import { stat } from "fs";
         vm.type_of_medium_new = data.type_of_medium;
         vm.affiliate_id = data.company.affiliateID;;
         vm.affiliate_name = data.company?.affiliate?.name || "--";
-        vm.isMoving = data.type_of_medium[0].isMoving == 0 ? false : true;
+        vm.isMoving = data.type_of_medium.length > 0 ? data.type_of_medium[0].isMoving == 0 ? false : true : false;
         // alert(vm.isMoving);
         
         this.selected_item = data;

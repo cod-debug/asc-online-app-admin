@@ -10,6 +10,7 @@
             <div class="row">
               <div class="col-12 col-md-6 q-pa-sm">
                 <q-input outlined
+                        type="number"
                          label="S1 Expiration No. of Years *"
                          v-model="s1_expire"
                          :rules="[val => !!val || 'Field is required']" />
@@ -17,8 +18,7 @@
               </div>
               <div class="col-12 col-md-6 q-pa-sm">
                 <q-input outlined
-                        type="date"
-                        stack-label
+                        type="number"
                          label="S2 Expiration No. of Years *"
                          v-model="s2_expire"
                          :rules="[val => !!val || 'Field is required']" />
@@ -80,7 +80,7 @@
           id: vm.selectedID
         }
         
-        let { data, status } = await this.$store.dispatch("reason/getSpecific", payload);
+        let { data, status } = await this.$store.dispatch("application_expiration/getSpecific", payload);
         console.log(data);
         if([200, 201].includes(status)){
           for(let column in data){
@@ -94,12 +94,11 @@
         console.log(await this.validate());
         if (await this.validate()) {
           let payload = {
-              type: vm.type.toUpperCase(),
-              name: vm.name.toUpperCase(),
-              date: vm.date,
+            s1_expire: vm.s1_expire,
+            s2_expire: vm.s2_expire,
           }
 
-          let endpoint = "holiday/add";
+          let endpoint = "application_expiration/add";
           let success_message = "created";
 
           if(vm.is_update){
@@ -108,7 +107,7 @@
               id: vm.selectedID
             }
             success_message = "updated";
-            endpoint = "holiday/update";
+            endpoint = "application_expiration/update";
           }
           
             
@@ -117,13 +116,13 @@
           if ([200, 201].includes(status)) {
 
             Notify.create({
-              message: `Successfully ${success_message} Holiday.`,
+              message: `Successfully ${success_message} S1 and S2 Expiration.`,
               position: 'top-right',
               closeBtn: "X",
               timeout: 2000,
               color: 'green',
             })
-            this.$router.push({name: 'holiday-lists'})
+            // this.$router.push({name: 's1-s2-expiration-lists'})
           } else {
 
             Notify.create({

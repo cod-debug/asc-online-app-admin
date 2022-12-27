@@ -20,7 +20,7 @@ export const add = async ({ commit }, payload) => {
     try {
         res = await axios({
         method: "post",
-        url: `${getEnv('API_BASE_URL')}/schedule-holiday/create`,
+        url: `${getEnv('API_BASE_URL')}/s1s2-expiration/create`,
         data: payload,
         headers: headers,
         })
@@ -38,7 +38,7 @@ export const get = async ({ commit }, payload) => {
     try {
         res = await axios({
         method: "get",
-        url: `${getEnv('API_BASE_URL')}/schedule-holiday/getall/`,
+        url: `${getEnv('API_BASE_URL')}/s1s2-expiration/getall/`,
         params: payload,
         headers: headers,
         })
@@ -54,8 +54,8 @@ export const update = async ({ commit }, payload) => {
     let res = {};
     try {
         res = await axios({
-        method: "post",
-        url: `${getEnv('API_BASE_URL')}/schedule-holiday/update/?id=${payload.id}`,
+        method: "put",
+        url: `${getEnv('API_BASE_URL')}/s1s2-expiration/update/?id=${payload.id}`,
         data: payload.data,
         headers: headers,
         })
@@ -71,7 +71,7 @@ export const getSpecific = async ({ commit }, payload) => {
     try {
         res = await axios({
         method: "get",
-        url: `${getEnv('API_BASE_URL')}/schedule-holiday/getone/`,
+        url: `${getEnv('API_BASE_URL')}/s1s2-expiration/getone/`,
         params: payload,
         headers: headers,
         })

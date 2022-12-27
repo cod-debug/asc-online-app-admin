@@ -85,7 +85,7 @@
           search: "",
         }
         vm.loading_list = true;
-        let { data, status } = await vm.$store.dispatch("holiday/get", payload);
+        let { data, status } = await vm.$store.dispatch("application_expiration/get", payload);
         if ([200, 201].includes(status)) {
           vm.table_data = data.rows;
           vm.current = data.cpage;
