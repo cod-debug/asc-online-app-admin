@@ -31,7 +31,7 @@
         </div>
         <div class="row q-my-md">
           <div class="col-12 q-px-sm text-right">
-            <q-btn color="red-14" v-if="release_status || decision_status" class="q-mt-md" label="SEND DECISION OR STAMPED MATERIAL" icon="send" />
+            <!-- <q-btn color="red-14" v-if="release_status || decision_status" class="q-mt-md" label="SEND DECISION OR STAMPED MATERIAL" icon="send" /> -->
           <!-- <q-btn color="red-14" label="FORWARD TO AD SPECIALIST" @click="verifyApp(true)" icon="verified" class="q-mr-sm" /> -->
           </div>
         </div>

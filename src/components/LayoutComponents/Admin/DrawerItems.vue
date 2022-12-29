@@ -318,13 +318,13 @@ export default {
               icon: "fa-solid fa-caret-right",
               label: "S1 Form Schedule of Fees Settlement Period",
               count: null,
-              path: "/asc/page/maintenance/s1-fees-settlement-period",
+              path: "/asc/page/maintenance/s1-fees-settlement-period/update/1",
             },
             {
               icon: "fa-solid fa-caret-right",
               label: "Incomplete Decision Expiration Period",
               count: null,
-              path: "/asc/page/maintenance/s1-incomplete-decision-expiration-period",
+              path: "/asc/page/maintenance/s1-incomplete-decision-expiration-period/update/1",
             },
             {
               icon: "fa-solid fa-caret-right",

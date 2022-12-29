@@ -4,21 +4,15 @@
     <div class="q-pa-md">
       <q-card bordered class="my-card" elevated :square="true">
         <q-card-section>
-          <div><q-icon name="label_important" class="text-h6 text-red-15" /> Number of Multiple Application Allowed</div>
+          <!-- <div><q-icon name="label_important" class="text-h6 text-red-15" /> Number of Working Days</div> -->
           <q-form ref="announcement_form"
                   @submit.prevent="submit"
                   :greedy="true">
             <div class="row">
-              <div class="col-12 col-md-6 q-pa-sm">
+              <div class="col-12 col-md-12 q-pa-sm">
                 <q-input outlined
-                         label="Number of Hours *"
-                         v-model="settle_hours"
-                         :rules="[val => !!val || 'Field is required']" />
-              </div>
-              <div class="col-12 col-md-6 q-pa-sm">
-                <q-input outlined
-                         label="Number of Days *"
-                         v-model="settle_days"
+                         label="Number of Working Days *"
+                         v-model="decision_days"
                          :rules="[val => !!val || 'Field is required']" />
               </div>
             </div>
@@ -40,8 +34,7 @@
 
   export default {
     data: () => ({
-      settle_days: null,
-      settle_hours: null,
+      decision_days: null,
     }),
     watch: {
     },
@@ -76,7 +69,7 @@
           id: vm.selectedID
         }
         
-        let { data, status } = await this.$store.dispatch("s1_sched_of_fees/getSpecific", payload);
+        let { data, status } = await this.$store.dispatch("s1_incomplete_expiration/getSpecific", payload);
         console.log(data);
         if([200, 201].includes(status)){
           for(let column in data){
@@ -95,11 +88,10 @@
         console.log(await this.validate());
         if (await this.validate()) {
           let payload = {
-            settle_days: vm.settle_days,
-            settle_hours: vm.settle_hours
+            decision_days: vm.decision_days,
           }
 
-          let endpoint = "s1_sched_of_fees/add";
+          let endpoint = "s1_incomplete_expiration/add";
           let success_message = "created";
           if(vm.is_update){
             payload = {
@@ -107,7 +99,7 @@
               id: vm.selectedID
             }
             success_message = "updated";
-            endpoint = "s1_sched_of_fees/update";
+            endpoint = "s1_incomplete_expiration/update";
             
           }
           // console.log(payload);

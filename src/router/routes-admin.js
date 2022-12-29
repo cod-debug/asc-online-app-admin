@@ -469,7 +469,24 @@ export const maintenanceRoutes = [
       },
       {
         path: 's1-incomplete-decision-expiration-period',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/IncompleteDecisionExpiration/IDEIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 's1-incomplete-decision-lists',
+            component: () => import('components/Admin/IncompleteDecisionExpiration/IDELists.vue'),
+          },
+          {
+            path: 'add',
+            name: 's1-incomplete-decision-add',
+            component: () => import('components/Admin/IncompleteDecisionExpiration/IDEAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 's1-incomplete-decision-update',
+            component: () => import('components/Admin/IncompleteDecisionExpiration/IDEAdd.vue'),
+          }
+        ]
       },
       {
         path: 'promissory-note-periods',

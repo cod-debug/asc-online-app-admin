@@ -31,8 +31,7 @@
 
     data: () => ({
       columns: [
-        { name: 'settle_days', align: 'left', label: 'Number of Hours', field: 'settle_days', sortable: false },
-        { name: 'settle_hours', align: 'left', label: 'Number of Days', field: 'settle_hours', sortable: false },
+        { name: 'decision_days', align: 'left', label: 'Number of Working Days', field: 'decision_days', sortable: false },
       ],
 
       table_data: [],
@@ -72,11 +71,10 @@
           id: 1,
         }
         vm.loading_list = true;
-        let { data, status } = await vm.$store.dispatch("s1_sched_of_fees/getSpecific", payload);
+        let { data, status } = await vm.$store.dispatch("s1_incomplete_expiration/getSpecific", payload);
         if ([200, 201].includes(status)) {
           let parsed_rows = [{
-            settle_days: data.settle_days,
-            settle_hours: data.settle_hours,
+            decision_days: data.decision_days,
             id: data.id,
           }];
 
@@ -91,7 +89,7 @@
       },
       
       viewDetails (evt, row) {
-        this.$router.push({name: 's1-fees-settle-update', params: {
+        this.$router.push({name: 's1-incomplete-decision-update', params: {
           id: 1
         }});
       },

@@ -12,31 +12,33 @@
               <img src="~assets/images/asc-logo.jpg" style="width: 15em;" />
               <h5 class="q-ma-sm"><b>Login</b></h5>
             </div>
-
-            <div class="q-form q-mr-sm q-ml-sm q-pa-md">
-              <div class="q-gutter-md">
-                <q-input v-model="email_address" label="Email Address" type="email" />
-                <q-input bottom-slots v-model="password" :type="!showPass ? 'password' : 'text-pass'" label="Password">
-                  <template v-slot:append>
-                    <q-btn round dense flat :icon="!showPass ? 'visibility ' : 'visibility_off'" @click="showHidePassword" />
-                  </template>
-                </q-input>
-              </div>
-
-              <div class="row q-mt-lg">
-                <div class="col-sm-6 q-pa-sm">
-                  <q-btn color="primary" label="Login" @click="login" class="btn-block" />
+              <div class="q-form q-mr-sm q-ml-sm q-pa-md">
+                <div class="q-gutter-md">
+                  
+                  <form @submit.prevent="login()" method="POST" >
+                    <q-input v-model="email_address" label="Email Address" type="email" />
+                    <q-input bottom-slots v-model="password" :type="!showPass ? 'password' : 'text-pass'" label="Password">
+                      <template v-slot:append>
+                        <q-btn round dense flat :icon="!showPass ? 'visibility ' : 'visibility_off'" @click="showHidePassword" />
+                      </template>
+                    </q-input>      
+                  </form>
                 </div>
-                <div class="col-sm-6 q-pa-sm">
-                  <q-btn color="primary" label="Register" outline class="btn-block" @click="openRegisterModal()" />
+
+                <div class="row q-mt-lg">
+                  <div class="col-sm-6 q-pa-sm">
+                    <q-btn color="primary" label="Login" @click="login" class="btn-block" />
+                  </div>
+                  <div class="col-sm-6 q-pa-sm">
+                    <q-btn color="primary" label="Register" outline class="btn-block" @click="openRegisterModal()" />
+                  </div>
+                </div>
+                <div class="text-center">
+                  <a href="#" class="forgot-password-btn">
+                    <small>Forgot Password</small>
+                  </a>
                 </div>
               </div>
-              <div class="text-center">
-                <a href="#" class="forgot-password-btn">
-                  <small>Forgot Password</small>
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       </div>

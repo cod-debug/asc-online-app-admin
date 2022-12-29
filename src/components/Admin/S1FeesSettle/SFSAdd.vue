@@ -4,7 +4,7 @@
     <div class="q-pa-md">
       <q-card bordered class="my-card" elevated :square="true">
         <q-card-section>
-          <div><q-icon name="label_important" class="text-h6 text-red-15" /> Number of Multiple Application Allowed</div>
+          <!-- <div><q-icon name="label_important" class="text-h6 text-red-15" /> Number of Multiple Application Allowed</div> -->
           <q-form ref="announcement_form"
                   @submit.prevent="submit"
                   :greedy="true">
