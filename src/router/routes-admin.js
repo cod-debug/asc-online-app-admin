@@ -456,7 +456,24 @@ export const maintenanceRoutes = [
       },
       {
         path: 'promissory-note-periods',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/PromissoryNotePeriod/PNPIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'promissory-note-period-lists',
+            component: () => import('components/Admin/PromissoryNotePeriod/PNPLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'promissory-note-period-add',
+            component: () => import('components/Admin/PromissoryNotePeriod/PNPAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'promissory-note-period-update',
+            component: () => import('components/Admin/PromissoryNotePeriod/PNPAdd.vue'),
+          }
+        ]
       },
       {
         path: 'brand-penalties',

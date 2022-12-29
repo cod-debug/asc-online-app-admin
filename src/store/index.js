@@ -29,6 +29,7 @@ import s1 from "./s1";
 import asc_user from "./asc_user";
 import holiday from "./holiday";
 import application_expiration from "./application_expiration";
+import promissory_note_period from "./promissory_note_period";
 // import example from './module-example'
 
 /*
@@ -73,6 +74,7 @@ export default store(function (/* { ssrContext } */) {
       asc_user,
       holiday,
       application_expiration,
+      promissory_note_period,
     },
 
     // enable strict mode (adds overhead!)

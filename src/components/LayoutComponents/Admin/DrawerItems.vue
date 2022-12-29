@@ -312,7 +312,7 @@ export default {
               icon: "fa-solid fa-caret-right",
               label: "S1 and S2 Form Expiration Period",
               count: null,
-              path: "/asc/page/maintenance/s1-s2-expiration-periods",
+              path: "/asc/page/maintenance/s1-s2-expiration-periods/update/1",
             },
             {
               icon: "fa-solid fa-caret-right",
