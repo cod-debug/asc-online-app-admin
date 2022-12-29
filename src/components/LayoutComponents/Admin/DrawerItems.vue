@@ -330,7 +330,7 @@ export default {
               icon: "fa-solid fa-caret-right",
               label: "Promissory Note Period",
               count: null,
-              path: "/asc/page/maintenance/promissory-note-periods",
+              path: "/asc/page/maintenance/promissory-note-periods/update/1",
             },
           ]
         },

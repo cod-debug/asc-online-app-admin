@@ -448,7 +448,24 @@ export const maintenanceRoutes = [
       },
       {
         path: 's1-fees-settlement-period',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/S1FeesSettle/SFSIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 's1-fees-settle-lists',
+            component: () => import('components/Admin/S1FeesSettle/SFSLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 's1-fees-settle-add',
+            component: () => import('components/Admin/S1FeesSettle/SFSAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 's1-fees-settle-update',
+            component: () => import('components/Admin/S1FeesSettle/SFSAdd.vue'),
+          }
+        ]
       },
       {
         path: 's1-incomplete-decision-expiration-period',
