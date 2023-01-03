@@ -4,6 +4,7 @@ import {
   companyRoutes,
   S1applicationRoutes,
   S2applicationRoutes,
+  applicationRoutes,
 } from "./routes-admin.js";
 
 const routes = [
@@ -45,8 +46,21 @@ const routes = [
       ...companyRoutes,
       ...S1applicationRoutes,
       ...S2applicationRoutes,
+      ...applicationRoutes,
     ]
-  }
+  },
+  {
+    path: "/account",
+    name: "account",
+    component: () => import("layouts/ApplicantLayout.vue"),
+    children: [
+      {
+        path: "user-profile",
+        name: "user-profile",
+        component: () => import('pages/Profile/Account/UserProfile/UserProfileIndex.vue'),
+      },
+    ]
+  },
 
   /*{
     name: "login",

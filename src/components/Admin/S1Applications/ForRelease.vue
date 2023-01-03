@@ -332,7 +332,7 @@
             "release_status": "FOR RELEASE",
             // "application_type": ["REGULAR", "BATCH"],
             "search": vm.search,
-            // "process_type": vm.active_tab
+            "form_type": "s1",
           },
           params: {
             take: vm.take,

@@ -329,10 +329,10 @@
 		  
 		  let payload = {
 			data: {
-			  "release_status": "RELEASED",
-			  // "application_type": ["REGULAR", "BATCH"],
-			  "search": vm.search,
-			  // "process_type": vm.active_tab
+				"release_status": "RELEASED",
+				// "application_type": ["REGULAR", "BATCH"],
+				"search": vm.search,
+				"form_type": "s1",
 			},
 			params: {
 			  take: vm.take,
@@ -363,6 +363,7 @@
 			  "form_group": "FOR RELEASE",
 			  "application_type": ["REGULAR", "BATCH"],
 			  "search": vm.search,
+			  "form_type": 's1',
 			  "process_type": processType
 			},
 			params: {

@@ -163,7 +163,24 @@ export const maintenanceRoutes = [
       },
       {
         path: 'weekly-user-schedule',
-        // component: () => import('pages/Index.vue')
+        component: () => import('components/Admin/UserWeeklySchedule/UWSIndex.vue'),
+        children: [
+          {
+            path: '',
+            name: 'weekly-user-schedule-lists',
+            component: () => import('components/Admin/UserWeeklySchedule/UWSLists.vue'),
+          },
+          {
+            path: 'add',
+            name: 'weekly-user-schedule-add',
+            component: () => import('components/Admin/UserWeeklySchedule/UWSAdd.vue'),
+          },
+          {
+            path: 'update/:id',
+            name: 'weekly-user-schedule-update',
+            component: () => import('components/Admin/UserWeeklySchedule/UWSAdd.vue'),
+          }
+        ]
       },
       {
         path: 'type-of-reason',
@@ -594,8 +611,26 @@ export const accountRoutes = [
 
 export const applicationRoutes = [
   {
-    path: 'reassignment',
-    // component: () => import('layouts/MainLayout.vue'),
+    path: 'application/reassignment',
+    component: () => import('components/Admin/ApplicationReassignment/ARIndex.vue'),
+    children: [
+      {
+        path: '',
+        name: 'reassignment-lists',
+        component: () => import('components/Admin/ApplicationReassignment/ARLists.vue'),
+      },
+      {
+        path: 'add',
+        name: 'reassignment-add',
+        component: () => import('components/Admin/ApplicationReassignment/ARAdd.vue'),
+      },
+      {
+        path: 'update/:id',
+
+        name: 'reassignment-update',
+        component: () => import('components/Admin/ApplicationReassignment/ARAdd.vue'),
+      }
+    ]
   },
 ];
 

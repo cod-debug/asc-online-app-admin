@@ -32,6 +32,8 @@ import application_expiration from "./application_expiration";
 import promissory_note_period from "./promissory_note_period";
 import s1_sched_of_fees from "./s1_sched_of_fees";
 import s1_incomplete_expiration from "./s1_incomplete_expiration";
+import weekly_user_schedule from "./weekly_user_schedule";
+import sessions from "./sessions";
 // import example from './module-example'
 
 /*
@@ -79,6 +81,8 @@ export default store(function (/* { ssrContext } */) {
       promissory_note_period,
       s1_sched_of_fees,
       s1_incomplete_expiration,
+      weekly_user_schedule,
+      sessions,
     },
 
     // enable strict mode (adds overhead!)

@@ -106,11 +106,11 @@ export default {
             }
           ]
         },
-        {
-          icon: "fa-solid fa-print",
-          label: "Reports",
-          path: "/asc/page/accounting/reports",
-        },
+        // {
+        //   icon: "fa-solid fa-print",
+        //   label: "Reports",
+        //   path: "/asc/page/accounting/reports",
+        // },
         {
           icon: "fa-solid fa-user-circle",
           label: "Account",

@@ -49,7 +49,7 @@ export const getOneUser = async ({ commit }, payload) => {
   return res;
 }
 
-
+// PROFILES!
 export const getAllUserTypes = async ({ commit }, payload) => {
   let res = {};
   try {
@@ -66,3 +66,59 @@ export const getAllUserTypes = async ({ commit }, payload) => {
   }
   return res
 }
+
+export const updateProfile = async ({ commit }, payload) => {
+  let res = {};
+  try {
+      res = await axios({
+      method: "post",
+      url: `${getEnv('API_BASE_URL')}/users/update/`,
+      data: payload.data,
+      params: payload.params,
+      headers: headers,
+      })
+  } catch (e) {
+      console.log(e);
+      res.data = e.response.data
+      res.status = e.response.status
+  }
+  return res
+}
+
+export const updatePassword = async ({ commit }, payload) => {
+  let res = {};
+  try {
+      res = await axios({
+      method: "post",
+      url: `${getEnv('API_BASE_URL')}/users/update/password/`,
+      data: payload,
+      headers: headers,
+      })
+  } catch (e) {
+      console.log(e);
+      res.data = e.response.data
+      res.status = e.response.status
+  }
+  return res
+}
+
+export const updateESign = async ({ commit }, payload) => {
+  let res = {};
+  try {
+      res = await axios({
+      method: "post",
+      url: `${getEnv('API_BASE_URL')}/users/upload/`,
+      data: payload,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${localStorage.getItem('token')}` 
+      },
+      })
+  } catch (e) {
+      console.log(e);
+      res.data = e.response.data
+      res.status = e.response.status
+  }
+  return res
+}
+
