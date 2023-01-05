@@ -12,12 +12,15 @@
               <img src="~assets/images/asc-logo.jpg" style="width: 15em;" />
               <h5 class="q-ma-sm"><b>Login</b></h5>
             </div>
-            <q-form @submit.prevent="login" method="POST" >
+            <q-form @submit.prevent="login" method="POST" ref="login_form">
               <div class="q-form q-mr-sm q-ml-sm q-pa-md">
-                <div class="q-gutter-md">
-                  
-                    <q-input v-model="email_address" label="Email Address" type="email" />
-                    <q-input bottom-slots v-model="password" :type="!showPass ? 'password' : 'text-pass'" label="Password">
+                <div class="q-gutter-md">  
+                    <q-input label="Email Address *"
+                       type="email"
+                       v-model="email_address"
+                       :rules="[val => !!val || 'Field is required']" />
+                    <q-input bottom-slots v-model="password" :type="!showPass ? 'password' : 'text-pass'" label="Password *"
+                       :rules="[val => !!val || 'Field is required']">
                       <template v-slot:append>
                         <q-btn round dense flat :icon="!showPass ? 'visibility ' : 'visibility_off'" @click="showHidePassword" />
                       </template>
@@ -26,13 +29,13 @@
 
                 <div class="row q-mt-lg">
                   <div class="col-sm-6 q-pa-sm">
-                    <q-btn color="primary" type="submit" label="Login" @click="login" class="btn-block" />
+                    <q-btn color="primary" type="submit" label="Login" class="btn-block" />
                   </div>
                   <div class="col-sm-6 q-pa-sm">
                     <q-btn color="primary" type="button" label="Register" outline class="btn-block" @click="openRegisterModal()" />
                   </div>
                 </div>
-                <div class="text-center">
+                <div class="text-center" @click="forgotPassword">
                   <a href="#" class="forgot-password-btn">
                     <small>Forgot Password</small>
                   </a>
@@ -45,6 +48,7 @@
     </div>
     <div class="modals">
       <app-register-modal v-if="show_register_modal" :closeModal="closeModal" />
+      <app-forgot-password-modal :default_email="email_address" />
     </div>
   </div>
 </template>
@@ -52,6 +56,7 @@
 <script>
   import appCarousel from "components/HomeCarousel.vue";
   import appRegisterModal from "pages/Home/Modal/Register/RegisterModal.vue";
+  import appForgotPasswordModal from "pages/Home/Modal/ForgotPassword.vue";
   import appLoading from "components/LoadingPage.vue";
   import { LocalStorage, Notify, QSpinnerBox } from "quasar";
 
@@ -63,12 +68,15 @@ export default {
       email_address: "",
       show_register_modal: false,
       is_loading: false,
+
+      show_forgot_password_modal: false,
     }),
 
     components: {
       appCarousel,
       appRegisterModal,
       appLoading,
+      appForgotPasswordModal,
     },
     mounted() {
       this.initAppp();
@@ -80,7 +88,14 @@ export default {
       initAppp() {
         // this.$store.dispatch("auth/getAllEmployees");
       },
+      forgotPassword(){
+        let vm = this;
+        vm.show_forgot_password_modal = true;
+      },
       async login() {
+        if(!await this.$refs.login_form.validate()){
+          return false;
+        }
         let payload = {
           email: this.email_address,
           passwd: this.password
@@ -135,23 +150,23 @@ export default {
             //this.$router.push('/asc/page/');
             window.location.href='/asc/page/announcement';
           } else {
-            this.$q.dialog({
+            Notify.create({
               message: data.message,
-              title: 'Access Denied!',
-              progress: false,
-              color: "red-14",
-              theme: "modern",
-              ok: true,
-            });
+              position: 'top-right',
+              closeBtn: "X",
+              timeout: 3000,
+            })
+            this.is_loading = false;
+            return false;
           }
         } catch (e) {
           console.log(e);
-          this.$q.dialog({
-            message: `Something went wrong`,
-            title: 'Access Denied!',
-            progress: false,
-            ok: true,
-          });
+            Notify.create({
+              message: "Something went wrong. Please contact system administrator.",
+              position: 'top-right',
+              closeBtn: "X",
+              timeout: 3000,
+            })
         }
 
         this.is_loading = false;
