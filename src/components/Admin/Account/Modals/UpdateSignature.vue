@@ -1,67 +1,113 @@
 <template>
-    <div class="q-pa-md q-gutter-sm">
-      <q-dialog v-model="icon" :persistent="true">
-        <q-card style="width: 900px; max-width: 80vw;">
-          <q-card-section class="row items-center q-pb-none">
-            <div class="text-h6">Update User Role</div>
-            <q-space />
-            <q-btn icon="close" flat round dense v-close-popup @click="closeModal" />
-          </q-card-section>
-  
-          <q-card-section>
-              <div class="form row">
-              <div class="col-12 col-md-12 q-pa-md">
-                <q-input outlined label="User Role" v-model="name" />
-              </div>
-            </div>
-          </q-card-section>
-        </q-card>
-      </q-dialog>
-    </div>
-  </template>
-  
-  <script>
-  
-    export default {
-      props: ['closeModal', 'modal_type', 'selected_item', 'is_update'],
-      data: () => ({
-        icon: true,
-  
-        // USER INFORMATION
-        name: "",
-  
-        active_tab: "UserDetails",
-        tab: "user",
-      }),
-      mounted() {
-        this.initApp();
-      },
-  
-      methods: {
-        async getSpecific(){
-          let vm = this;
-          let payload = {
-            id: vm.selected_item.id
-          }
-          let {data, status} = await this.$store.dispatch('account/getOneUser', payload);
-          if([200, 201].includes(status)){
-            for(let col in data){
-              vm[col] = data[col];
-            }
-          }
-        },
-        initApp() {
-          if (this.modal_type === 'approval') {
-            for (let column in this.selected_item) {
-              this[column] = this.selected_item[column];
-            }
-          }
-  
-          if(this.is_update){
-            this.getSpecific();
-          }
+  <q-card-section>
+    <q-card
+      flat
+      bordered
+      class="fields-card"
+      style="margin-bottom: 1rem"
+    >
+      <q-card-section>
+        <div class="text-h6" style="display: flex">
+          <i
+            class="fa-solid fa-upload"
+            style="color: #a00000"
+          ></i>
+          <!-- <q-icon name="label_important" style="color: #a00000"></q-icon> -->
+          <span class="card-header">Upload e-Signature</span>
+        </div>
+
+        <!-- <q-separator style="margin-bottom: 1.5rem" /> -->
+
+        <div class="text-h6" style="display: flex;">
+          <!-- <i class="fa-solid fa-signature"></i> -->
+          <span class="card-header">
+            Filename:
+          </span>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <q-input
+              ref="e-signature"
+              name="e-signature"
+              @update:model-value="handle_file_change"
+              type="file"
+              accept="image/*"
+            />
+          </div>
+        </div>
+      </q-card-section>
+    </q-card>
+  </q-card-section>
+</template>
+<script>
+export default {
+  props: ['allow_action', 'user_details'],
+  data: () => ({
+    info: {
+      e_signature_file: null,
+      e_signature_file_path: null,
+    }
+  }),
+
+  methods: {
+    handle_file_change(file) {
+      if (!file[0]) return;
+      if (!file?.[0]?.type?.includes("image")) {
+        if (this.$refs['e-signature'].$refs.input) {
+          this.$refs['e-signature'].$refs.input.value = null
         }
+        return this.$q.notify({
+          type: 'negative',
+          position: 'top-right',
+          message: `Only images file accepted.`
+        })
       }
+
+      this.e_signature_file = file[0];
+
+      console.log('fdfdf')
+
+      this.$emit('update:allow_action', true);
+    },
+
+    on_submit_update(callback) {
+      callback({
+        e_signature_file: this.e_signature_file,
+        e_signature_file_path: this.e_signature_file_path
+      })
+    },
+  },
+
+  mounted() {
+    this.$emit('update:allow_action', false);
+    this.e_signature_file = null;
+    this.e_signature_file_path = null;
   }
-  </script>
-  
+}
+</script>
+
+<style lang="scss" scoped>
+.fields-card {
+  border: 1px solid #d8d8d8;
+  border-radius: 0;
+  box-shadow: 5px 4px 5px 1px rgb(0 0 0 / 10%) !important;
+  -webkit-box-shadow: 5px 4px 5px 1px rgb(0 0 0 / 10%) !important;
+  -moz-box-shadow: 5px 4px 5px 1px rgba(0, 0, 0, 0.1) !important;
+
+  .card-header {
+    font: 400 15px/24px Roboto, Helvetica Neue, sans-serif;
+    letter-spacing: normal;
+    margin: 0 0 16px;
+    padding-left: 10px;
+  }
+  .card-sub-header {
+    padding-left: 0;
+    font-weight: 500;
+    font: 400 15px/24px Roboto, Helvetica Neue, sans-serif;
+    letter-spacing: normal;
+    margin: 0 0 16px;
+  }
+}
+
+</style>

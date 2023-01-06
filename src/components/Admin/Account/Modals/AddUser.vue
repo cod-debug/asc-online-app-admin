@@ -3,7 +3,7 @@
     <q-dialog v-model="icon" :persistent="true">
       <q-card style="width: 900px; max-width: 80vw;">
         <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">Add ASC User</div>
+          <div class="text-h6">{{ is_update ? "Update" : "Add" }} ASC User</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup @click="closeModal" />
         </q-card-section>
@@ -17,6 +17,7 @@
                     indicator-color="blue"
                     :no-caps="true">
               <q-tab name="user" label="User Details" @click="active_tab = 'UserDetails'" />
+              <q-tab name="signature" label="Signature" @click="active_tab = 'Signature'" v-if="is_asc_user" />
               <q-tab name="account" label="Account Information" @click="active_tab = 'AccountInfo'" />
             </q-tabs>
             <hr class="q-tabs-gutter" color="lightgray" />
@@ -42,6 +43,8 @@
                   </div>
                 </div>
               </q-card-section>
+
+              <update-signature v-else-if="active_tab == 'Signature' && is_asc_user" ref="signature_form" />
 
               <q-card-section v-else-if="active_tab == 'AccountInfo'">
                 <div class="text-h6 q-mb-md"><q-icon name="label_important" class="text-red-15" /> Account Information:</div>
@@ -74,10 +77,11 @@
 
 <script>
 import { Notify } from 'quasar';
+import updateSignature from './UpdateSignature.vue';
 
 
   export default {
-    props: ['closeModal', 'modal_type', 'selected_item', 'is_update', 'getAllNONASC'],
+    props: ['closeModal', 'modal_type', 'selected_item', 'is_update', 'getAllNONASC', 'is_asc_user'],
     data: () => ({
       icon: true,
 
@@ -104,6 +108,9 @@ import { Notify } from 'quasar';
       usertype(newVal, oldVal){
         console.log(newVal);
       }
+    },
+    components: {
+      updateSignature,
     },
     methods: {
       async getSpecific(){
@@ -164,6 +171,14 @@ import { Notify } from 'quasar';
             }
           }
           endpoint = "users/updateUser";
+          if(this.active_tab == "Signature"){
+            let formData = new FormData();
+
+            formData.append('file', this.$refs.signature_form.e_signature_file);
+            formData.append('id', this.selected_item.id);
+            payload = formData;
+            endpoint = "account/updateESign";
+          }
         }
 
         let {data, status} = await vm.$store.dispatch(endpoint, payload);
