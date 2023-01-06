@@ -50,7 +50,7 @@ export default {
     drawerItems: [],
   }),
   methods: {
-    initApp() {
+    async initApp() {
       this.drawerItems = [
         {
           icon: "fa-solid fa-user-circle",
@@ -376,20 +376,27 @@ export default {
           path: "/asc/page/announcement",
         },
       ];
+
+      // setInterval(async () => {
+      // }, 1000);
+      
+      let {data, status} = await this.$store.dispatch("asc_user/getCountByRole");
+      if([200, 201].includes(status)){
+        vm.drawerItems[0].children[0].count = data.individualCount;
+        vm.drawerItems[0].children[1].count = data.multipleCount;
+        vm.drawerItems[0].children[2].count = data.specialCount;
+        vm.drawerItems[0].children[3].count = data.forReleaseCount;
+        vm.drawerItems[0].children[2].count = data.releasedCount;
+        vm.drawerItems[1].children[0].count = data.s2InvididualCount;
+        vm.drawerItems[1].children[1].count = data.s2MultipleCount;
+        vm.drawerItems[1].children[1].count = data.s2SpecialCount;
+      }
     }
   },
   mounted() {
     this.initApp();
     
 
-    // setInterval(async () => {
-    //   let {data, status} = await this.$store.dispatch("asc_user/getCountByRole");
-    //   if([200, 201].includes(status)){
-    //     vm.drawerItems[0].children[0].count = data.individualCount;
-    //     vm.drawerItems[0].children[1].count = data.multipleCount;
-    //     vm.drawerItems[0].children[2].count = data.specialCount;
-    //   }
-    // }, 1000);
   }
 }
 </script>

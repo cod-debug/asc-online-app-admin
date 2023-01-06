@@ -358,3 +358,13 @@ input[type='text-pass'] {
 .container-fluid {
   margin-top: 20px!important;
 }
+
+.q-editor__content font[size='1']{
+  font-size: 10pt!important;
+}
+.q-editor__content font[size='2']{
+  font-size: 11pt!important;
+}
+.q-editor {
+  font-family: 'Calibri', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+}
