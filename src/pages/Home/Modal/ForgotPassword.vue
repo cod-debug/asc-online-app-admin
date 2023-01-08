@@ -70,6 +70,7 @@ import { Notify } from 'quasar';
                         position: 'top-right',
                         closeBtn: "X",
                         timeout: 3000,
+                        color: 'green',
                     })
                 } else {
                     Notify.create({
@@ -77,6 +78,7 @@ import { Notify } from 'quasar';
                         position: 'top-right',
                         closeBtn: "X",
                         timeout: 3000,
+                        color: 'red-14',
                     })
                 }
             }
