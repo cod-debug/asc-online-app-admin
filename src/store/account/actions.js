@@ -122,3 +122,23 @@ export const updateESign = async ({ commit }, payload) => {
   return res
 }
 
+export const forgotPassword = async ({ commit }, payload) => {
+  let res = {};
+  try {
+      res = await axios({
+      method: "post",
+      url: `${getEnv('API_BASE_URL')}/users/forget/password`,
+      data: payload,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${localStorage.getItem('token')}` 
+      },
+      })
+  } catch (e) {
+      console.log(e);
+      res.data = e.response.data
+      res.status = e.response.status
+  }
+  return res
+}
+
