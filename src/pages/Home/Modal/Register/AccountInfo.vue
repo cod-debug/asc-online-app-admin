@@ -20,14 +20,15 @@
                      type="password"
                      label="Password *"
                      v-model="passwd"
-                     :rules="[val => !!val || 'Field is required']" />
+                     :rules="[
+                      val => !!val || 'Field is required', isValidEmail()]" />
           </div>
           <div class="col-md-6 col-lg-6 q-pa-sm">
             <q-input outlined
                      type="password"
                      label="Confirm Password *"
                      v-model="confirm_password"
-                     :rules="[val => !!val || 'Field is required']" />
+                     :rules="[val => !!val || 'Field is required', isValidPassword]" />
           </div>
         </div>
       </q-form>
@@ -52,6 +53,15 @@
         for (let column in this.default_val) {
           this[column] = this.default_val[column];
         }
+      },
+      
+      isValidEmail () {
+        const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+        return emailPattern.test(this.email) || 'Invalid email';
+      },
+      
+      isValidPassword () {
+        return this.passwd == this.confirm_password || 'Password does not match.';
       },
 
       async onSubmit(evt) {

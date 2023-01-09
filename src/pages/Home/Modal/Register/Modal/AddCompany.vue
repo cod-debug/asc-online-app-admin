@@ -150,7 +150,7 @@
       company_address: "",
       options: [],
       current: 1,
-      size: 20,
+      size: 2000,
     }),
 
     mounted() {

@@ -136,7 +136,7 @@
         let payload = {
           page: this.current,
           size: this.size,
-          order: "id:desc",
+          order: "name:asc",
           search: this.search,
         }
         this.options.splice(this.options.length -1, 1);
