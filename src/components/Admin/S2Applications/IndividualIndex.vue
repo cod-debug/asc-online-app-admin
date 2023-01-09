@@ -369,7 +369,7 @@ import { Notify } from "quasar";
         if([200, 201].includes(status)){
           vm.table_data = data.data.map((item) => {
             return {...item, 
-              company_name: item.company.name, 
+              company_name: item?.company?.name || "--", 
               type_medium_name: item.type_of_medium.length > 0 ? item.type_of_medium.map((i) => i.type_of_medium ): '--',
               is_self_assigned: true, // TO BE UPDATED ONCE DONE IN SIR KEVIN'S ENDPOINT
             }
